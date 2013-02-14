@@ -1,0 +1,71 @@
+/* Nav bar from phila.gov/map */
+.navbar-fixed-top .navbar-inner {
+    background-color: #254A78; /* fallback color, place your own */
+
+    /* Gradients for modern browsers, replace as you see fit */
+	background-image: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+	background-image: -ms-linear-gradient(top, #4069AB, #1A3C6A);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4069AB), to(#1A3C6A));
+	background-image: -webkit-linear-gradient(top, #4069AB, #1A3C6A);
+	background-image: -o-linear-gradient(top, #4069AB, #1A3C6A);
+	background-image: linear-gradient(top, #4069AB, #1A3C6A);
+	background-repeat: repeat-x;
+
+	/* IE8-9 gradient filter */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A', GradientType=0);
+	/*background: #254A78;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4069AB), to(#1A3C6A));
+	background: -moz-linear-gradient(top, #4069AB, #1A3C6A);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4069AB', endColorstr='#1A3C6A');
+	-moz-box-shadow: 0px 2px 4px #888;
+	-webkit-box-shadow: 0px 2px 4px #888;*/
+	box-shadow: 0px 2px 4px #888;
+}
+.navbar .brand { padding: 4px 15px 6px; }
+.btn-navbar { background: none !important; }
+.navbar-inverse .nav > li > a { color: #d8d8d8; }
+.navbar-inner .nav li a:hover { background: none repeat scroll 0 0 #1F4272 !important; }
+@media (max-width: 979px) {
+	.navbar-fixed-top .navbar-inner { padding: 0 }
+	.navbar-inverse .nav-collapse .nav > li > a { color: #d8d8d8; }
+}
+
+/* Document background (optional) */
+body { background-color: #eee; }
+
+/* Table headers (optional) */
+th { color: #1A3C6A; }
+
+/* Make the nav-header a bit darker to compensate for the background */
+.nav-header { color: #666; }
+
+/* Loading indicator from jQuery Mobile */
+.loading .loader { display: block; }
+.loader {
+    display: none;
+	z-index: 9999999;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	border:0;
+	background: none;
+	filter: Alpha(Opacity=18);
+	opacity: .18;
+	width: 46px;
+	height: 46px;
+	margin-left: -23px;
+	margin-top: -23px;
+}
+.loader .icon {
+	background-color: #000;
+	background: url(../images/ajax-loader.gif);
+	background-size: 46px 46px;
+	display: block;
+	margin: 0;
+	width: 44px;
+	height: 44px;
+	padding: 1px;
+	-webkit-border-radius: 36px;
+	-moz-border-radius: 36px;
+	border-radius: 36px;
+}

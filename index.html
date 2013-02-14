@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title data-default="AVI Calculator">AVI Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css">
+    <style>body{padding-top:60px;}</style>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/widget.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type='text/javascript'>
+        window._gaq = window._gaq || [];
+        window._gaq.push(["_setAccount", "UA-35850648-4"]);
+        window._gaq.push(["b._setAccount", "UA-860026-1"]);
+        if(window.location.hostname === "phlavi.herokuapp.com") {
+            // Google Analytics
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+            // Muscula
+            window.Muscula = { settings:{logId:"XCgjQIC-vKY0n", suppressErrors: false, branding: 'none'}};
+            (function () {
+                var m = document.createElement('script'); m.type = 'text/javascript'; m.async = true;
+                m.src = (window.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//musculahq.appspot.com/Muscula.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(m, s);
+                window.Muscula.run=function(c){eval(c);window.Muscula.run=function(){};};
+                window.Muscula.errors=[];window.onerror=function(){window.Muscula.errors.push(arguments);
+                return window.Muscula.settings.suppressErrors===undefined;}
+            })();
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Phila.gov Nav Bar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+    	<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#"><img src="images/cityLogo-31px.png" alt="City Seal"></a>
+				<span class="hidden-phone"><a class="brand" href="#"><img src="images/cityLogoMark-145-30.png" alt="City Logo"></a></span>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a title="Visit The City's Homepage" href="http://www.phila.gov"><i class="icon-home icon-white"></i></a></li>
+						<li><a title="Topics" href="http://www.phila.gov/Topics">Topics</a></li>
+						<li><a title="People We Serve" href="http://www.phila.gov/PeopleWeServe">People We Serve</a></li>
+						<li><a title="Agencies" href="http://www.phila.gov/Agencies">Government</a></li>
+						<li><a title="311" href="http://www.phila.gov/311">Contact 311</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div><!-- /.navbar -->
+    
+    <div class="container" id="main"></div>
+    
+    <div class="loader"><span class="icon"></span></div>
+    
+    <script type="text/template" id="tmpl-home">
+        <h1>AVI Calculator</h1>
+        <h3>You can use this application to estimate your real estate tax under the Actual Value Initiative (AVI).</h3>
+        <p>The Actual Value Initiative, or AVI, is a program for re-evaluating all properties in the city to ensure that values are fair and accurate. It also provides for an easier to understand tax system by removing complicated fractions when calculating tax bills.</p>
+        <% if(data.noresults) { %>
+        <div class="alert alert-error">No matches found for <code><%= data.input %></code>. <%= data.field !== "actnum" ? "For best results, try entering the account number of your property.<br>" : "" %>If you think this should have worked, you can try searching at <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a></div>
+        <% } %>
+        <form>
+            <div class="input-prepend">
+                <div class="btn-group" id="field" data-value="<%= data.field || "address"%>">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+                        <span class="dropdown-value"><%= data.field === "actnum" ? "Account #" : "Address" %></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="" data-value="address" data-placeholder="ex. 908 N 3rd St">Address</a></li>
+                        <li><a href="" data-value="actnum" data-placeholder="ex. 883525510">Account #</a></li>
+                    </ul>
+                </div>
+                <input type="text" name="input" id="input" value="<%= data.input || ""%>" placeholder="<%= data.field === "actnum" ? "ex. 011028555" : "ex. 908 N 3rd St" %>" data-provide="typeahead" autofocus>
+            </div>
+            <button class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> Search</button>
+        </form>
+    </script>
+    
+    <script type="text/template" id="tmpl-property">
+        <h1><%= data.property.address %><%= $.trim(data.property.unit) ? " UNIT: " + data.property.unit : "" %><small> ACCOUNT #<%= data.property.actnum %></small></h1>
+        <div class="row">
+            <div class="span6">
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>Previous Value</h3>
+                    </div>
+                    <div class="widget-content">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Market Value</li>
+                            <li><span class="marketvalue">$<%= util.formatNumber(data.property.value2013market) %></span></li>
+                            <li class="nav-header">Land Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2013land) %></li>
+                            <li class="nav-header">Improvement Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2013imp) %></li>
+                            <li class="nav-header">Abatement/Exempt Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2013exempt) %></li>
+                            <li class="nav-header">2013 Tax Assessment</li>
+                            <li>$<%= util.formatNumber(data.property.tax2013, 0) %></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>New Value</h3>
+                    </div>
+                    <div class="widget-content">
+                        <% if(data.property.value2014market >= 0) { %>
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Market Value</li>
+                            <li><span class="marketvalue">$<%= util.formatNumber(data.property.value2014market) %></span></li>
+                            <li class="nav-header">Land Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2014land) %></li>
+                            <li class="nav-header">Improvement Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2014imp) %></li>
+                            <li class="nav-header">Abatement/Exempt Value</li>
+                            <li>$<%= util.formatNumber(data.property.value2014exempt) %></li>
+                        </ul>
+                        <% } else { %>
+                        Data for this property is being updated. Please check back later.
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if(data.property.value2014market >= 0) { %>
+        <div class="widget widget-table action-table">
+            <div class="widget-header">
+                <h3>Estimate 2014 Tax Assessment</h3>
+            </div>
+            <div class="widget-content">
+                <table class="table table-striped table-bordered responsive">
+                    <thead>
+                        <tr>
+                            <th>Homestead Exemption</th>
+                            <th class="hidden-phone-vertical">Taxable Value</th>
+                            <th>Rate Estimate</th>
+                            <th>Tax Estimate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% _.each(data.calculations, function(val, key) { %>
+                        <tr>
+                            <td><%= key === "0" ? "None" : "$" + util.formatNumber(key) %></td>
+                            <td class="hidden-phone-vertical">$<%= util.formatNumber(val.taxable) %></td>
+                            <td><%= val.rate.min %> - <%= val.rate.max %>%</td>
+                            <td>$<%= util.formatNumber(val.tax.min, 2) %> - <%= util.formatNumber(val.tax.max, 2) %></td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <% } %>
+        <p>These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates.</p>
+        <p>To learn more about AVI, please go to <a href="http://phila.gov/opa" target="_blank">www.phila.gov/opa</a></p>
+        <p>If you think your new value does not reflect what it could sell for in the market, you may file an informal review with the OPA and/or appeal to the BRT.</p>
+        
+        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+        
+    </script>
+    
+    <script type="text/template" id="tmpl-properties">
+        <h3>Multiple properties found</h3>
+        <ul class="nav nav-tabs nav-stacked">
+        <% _.each(data.properties, function(property) { %>
+            <li><a href="#view/<%= property.actnum %>"><%= property.address %><% if(property.unit) { %> UNIT: <%= property.unit %><% } %></a></li>
+        <% }); %>
+        </ul>
+        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+    </script>
+    
+    <script type="text/template" id="tmpl-error">
+        <h1>Error</h1>
+        <%= data.message %>
+        <br><br>
+        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> Home</a>
+        <a href="#" rel="reload" class="btn btn-large btn-info"><i class="icon-repeat icon-white"></i> Try Again</a>
+    </script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    <script src="js/lib/jquery-jsonp.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
