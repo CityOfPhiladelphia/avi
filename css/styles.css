@@ -2,7 +2,7 @@
 #main { margin-bottom: 15px; }
 
 /* Home page similar to hero-unit */
-.home h { font-size: 18px; font-weight: 200; line-height: 25px; color: inherit; }
+.home h3 { font-size: 18px; font-weight: 200; line-height: 25px; color: inherit; }
 .home h1 { margin-bottom: 0; font-size: 60px; line-height: 1; letter-spacing: -1px; color: inherit; }
 .home .btn-primary { margin-top: 10px; }
 
