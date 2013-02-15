@@ -21,6 +21,7 @@ window.Backbone = window.Backbone || {};
         if( ! $.support.cors && arguments.length) {
             arguments[0].callbackParameter = "callback";
             arguments[0].cache = "true";
+            arguments[0].timeout = 15000;
             return Backbone.$.jsonp.apply(Backbone.$, arguments);
         }
         return Backbone.$.ajax.apply(Backbone.$, arguments);
