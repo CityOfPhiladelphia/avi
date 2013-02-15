@@ -193,6 +193,9 @@
             <li><a href="#view/<%= property.actnum %>"><%= property.address %><% if(property.unit) { %> UNIT: <%= property.unit %><% } %></a></li>
         <% }); %>
         </ul>
+        <% if(data.moreAvailable) { %>
+            <div class="alert alert-info">There are more results for this address, but you'll need to search on <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a> to see them.</div>
+        <% } %>
         <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
     </script>
     

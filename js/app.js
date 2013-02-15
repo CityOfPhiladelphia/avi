@@ -218,18 +218,16 @@ window.Backbone = window.Backbone || {};
     app.Views.PropertyView = Backbone.View.extend({
         className: "property"
         ,initialize: function() {
-            _.bindAll(this, "changeRate", "estimate");
+            _.bindAll(this, "estimate");
             this.template = _.template($("#tmpl-property").html());
         }
         ,events: {
-            "click .increment": "changeRate"
-            ,"click .decrement": "changeRate"
-            ,"click .above button": "showBeneath"
+            "click .above button": "showBeneath"
             ,"change #rate": "estimate"
             ,"change #homestead": "estimate"
         }
         ,render: function() {
-            this.$el.html(this.template({property: this.model.toJSON(), calculations: this.calculate()}));
+            this.$el.html(this.template({property: this.model.toJSON()}));
             this.activateSlider();
             this.estimate();
             return this;
@@ -254,17 +252,6 @@ window.Backbone = window.Backbone || {};
             rateNode.html(sliderNode.slider("value") / 100 + "%").data("value", sliderNode.slider("value") / 100);
             
         }
-        ,changeRate: function(e) {
-            e.preventDefault();
-            var button = $(e.currentTarget)
-                ,target = $("#" + button.data("target"));
-            if(button.hasClass("increment")) {
-                target.val((parseFloat(target.val()) + 0.01).toFixed(2));
-            } else if(button.hasClass("decrement")) {
-                target.val(Math.max(0, (parseFloat(target.val()) - 0.01)).toFixed(2));
-            }
-            this.estimate();
-        }
         ,estimate: function() {
             var marketValue = this.model.get("value2014market")
                 ,exemptValue = this.model.get("value2014exempt")
@@ -278,25 +265,6 @@ window.Backbone = window.Backbone || {};
                 
             // Show new tax
             this.$("#tax").text("$" + util.formatNumber(tax, 2));
-        }
-        ,calculate: function(homestead, rate1, rate2) {
-            var self = this
-                ,options = {
-                "30000": {rate: {min: 1.34, max: 1.39}}
-                ,"25000": {rate: {min: 1.32, max: 1.37}}
-                ,"20000": {rate: {min: 1.29, max: 1.34}}
-                ,"15000": {rate: {min: 1.27, max: 1.32}}
-                ,"10000": {rate: {min: 1.25, max: 1.30}}
-                ,"0": {rate: {min: 1.21, max: 1.26}}
-            };
-            _.each(options, function(val, key) {
-                val.taxable = self.model.get("value2014market") - self.model.get("value2014exempt") - parseInt(key);
-                val.tax = {
-                    min: Math.max(0, val.taxable * (val.rate.min / 100))
-                    ,max: Math.max(0, val.taxable * (val.rate.max / 100))
-                };
-            });
-            return options;
         }
         ,showBeneath: function(e) {
             e.preventDefault();
@@ -318,7 +286,7 @@ window.Backbone = window.Backbone || {};
             this.template = _.template($("#tmpl-properties").html());
         }
         ,render: function() {
-            this.$el.html(this.template({properties: this.collection.toJSON()}));
+            this.$el.html(this.template({properties: this.collection.toJSON(), moreAvailable: this.options.moreAvailable}));
             return this;
         }
     });
@@ -358,12 +326,6 @@ window.Backbone = window.Backbone || {};
             ,"*path": "home"
         }
         /**
-         * If on production domain, enable Google Analytics on each route
-         */
-        ,initialize: function() {
-            this.bind("all", this.logPageView);
-        }
-        /**
          * Switch pages while preserving events
          * Also sets title
          * See: http://coenraets.org/blog/2012/01/backbone-js-lessons-learned-and-improved-sample-app/
@@ -373,9 +335,10 @@ window.Backbone = window.Backbone || {};
                 this.currentView.$el.detach();
             }
             $("#main").empty().append(view.render().el);
-            util.scrollToTop();
             document.title = view.title !== undefined && view.title ? view.title : $("title").text();
             this.currentView = view;
+            util.scrollToTop();
+            this.logPageView();
         }
         /**
          * Landing / Search page
@@ -441,15 +404,22 @@ window.Backbone = window.Backbone || {};
          * Takes an array of account number strings. Called internally, not by a route.
          */
         ,multiple: function(accountNumbers) {
-            var self = this;
-            if(accountNumbers.length > 15) accountNumbers = accountNumbers.slice(0, 15);
+            var self = this, moreAvailable = false;
+            
+            // We can only request so many in a GET request due to URL size limitations
+            // TODO: Try POST or add pagination here
+            if(accountNumbers.length > 15) {
+                accountNumbers = accountNumbers.slice(0, 15);
+                moreAvailable = true;
+            }
+            
             app.properties = new app.Collections.Properties(null, {actnum: accountNumbers});
             util.loading(true);
             app.properties.fetch({
                 success: function(collection, response, options) {
                     util.loading(false);
                     // We'll assume we never get a length of 1 from ArcGIS if ulrs311 gives us multiple account numbers
-                    app.propertiesView = new app.Views.PropertiesView({collection: collection});
+                    app.propertiesView = new app.Views.PropertiesView({collection: collection, moreAvailable: moreAvailable});
                     self.showView(app.propertiesView);
                 }
                 ,error: function(collection, xhr, options) {
@@ -484,7 +454,7 @@ window.Backbone = window.Backbone || {};
             if(window.DEBUG) console.log("Google Analytics", url);
         }
         ,logError: function(error, url) {
-            window._gaq.push(["_trackEvent", "ErrorCaught", error, url]);
+            window._gaq.push(["_trackEvent", "ErrorCaught", error + "", url]);
             if(window.DEBUG) console.log("Google Analytics Error", error, url);
         }
     });
