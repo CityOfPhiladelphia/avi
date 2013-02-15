@@ -110,7 +110,7 @@
                             <li>$<%= util.formatNumber(data.property.value2013imp) %></li>
                             <li class="nav-header">Abatement/Exempt Value</li>
                             <li>$<%= util.formatNumber(data.property.value2013exempt) %></li>
-                            <li class="nav-header">2013 Tax Assessment</li>
+                            <li class="nav-header">2013 Tax</li>
                             <li>$<%= util.formatNumber(data.property.tax2013, 0) %></li>
                         </ul>
                     </div>
@@ -143,7 +143,7 @@
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
-                        <h3>Estimate 2014 Tax Assessment</h3>
+                        <h3>Estimate 2014 Tax</h3>
                     </div>
                     <div class="widget-content">
                         <p>In order to generate the same amount of revenue next year as is estimated for this year,
@@ -167,7 +167,7 @@
                             <li><span id="taxable-value"></span></li>
                             <li class="nav-header">Tax Rate</li>
                             <li><div id="rate"></div><div id="slider"></div></li>
-                            <li class="nav-header">Estimated 2014 Tax Assessment</li>
+                            <li class="nav-header">Estimated 2014 Tax</li>
                             <li>
                                 <div class="above"><button class="btn btn-large disabled">Estimate</button></div>
                                 <div class="beneath"><span id="tax"></span></div>
@@ -209,8 +209,11 @@
     </script>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script>if(window.jQuery === undefined) document.write("<script src=\"js/lib/jquery.min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+    <script>if(window._ === undefined) document.write("<script src=\"js/lib/underscore-min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+    <script>if(window.Backbone === undefined) document.write("<script src=\"js/lib/backbone-min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
     <script src="js/lib/jquery-jsonp.min.js"></script>
     <script src="js/lib/jquery-ui-slider.min.js"></script>

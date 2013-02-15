@@ -35,7 +35,7 @@ window.Backbone = window.Backbone || {};
         initialize: function() {
             var value2013market = this.get("value2013market");
             if(value2013market) {
-                this.set("tax2013", Math.max(0, (value2013market - this.get("value2013exempt")) * 0.32 * 0.09771));
+                this.set("tax2013", Math.max(0, (value2013market - this.get("value2013exempt") || 0) * 0.32 * 0.09771));
             }
         }
     });
@@ -270,7 +270,7 @@ window.Backbone = window.Backbone || {};
         ,showBeneath: function(e) {
             e.preventDefault();
             if($(e.currentTarget).hasClass("disabled")) {
-                alert("Please select a tax rate to estimate");
+                if(typeof window.alert === "function") window.alert("Please select a tax rate to estimate");
             } else {
                 $(e.currentTarget).parent(".above").addClass("hidden");
             }
@@ -325,6 +325,13 @@ window.Backbone = window.Backbone || {};
             ,"view/:actnum": "view"
             ,"search/:input": "search"
             ,"*path": "home"
+        }
+        /**
+         * Ensure Google Analytics array has been created
+         * Should be done in index.html but just in case
+         */
+        ,initialize: function() {
+            window._gaq = window._gaq || [];
         }
         /**
          * Switch pages while preserving events
