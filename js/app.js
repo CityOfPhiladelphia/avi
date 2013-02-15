@@ -48,7 +48,7 @@ window.Backbone = window.Backbone || {};
         model: app.Models.Property
         ,actnum: null
         ,settings: {
-            apiHost: "http://staging-gis.phila.gov/ArcGIS/rest/services/OPA/AVI_test/MapServer/0/query"
+            apiHost: "http://gis.phila.gov/ArcGIS/rest/services/OPA/AVI_2013_2014/MapServer/0/query"
             ,params: {
                 text: ""
                 ,geometry: ""
