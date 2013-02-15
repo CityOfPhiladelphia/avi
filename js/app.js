@@ -224,7 +224,7 @@ window.Backbone = window.Backbone || {};
         ,events: {
             "click .increment": "changeRate"
             ,"click .decrement": "changeRate"
-            ,"click .above": "showBeneath"
+            ,"click .above button": "showBeneath"
             ,"change #rate": "estimate"
             ,"change #homestead": "estimate"
         }
@@ -248,6 +248,7 @@ window.Backbone = window.Backbone || {};
                 slide: function (event, ui) {
                     rateNode.html(ui.value / 100 + "%").data("value", ui.value / 100);
                     self.estimate();
+                    self.$(".above button").removeClass("disabled");
                 }
             });
             rateNode.html(sliderNode.slider("value") / 100 + "%").data("value", sliderNode.slider("value") / 100);
@@ -299,7 +300,11 @@ window.Backbone = window.Backbone || {};
         }
         ,showBeneath: function(e) {
             e.preventDefault();
-            $(e.currentTarget).addClass("hidden");
+            if($(e.currentTarget).hasClass("disabled")) {
+                alert("Please select a tax rate to estimate");
+            } else {
+                $(e.currentTarget).parent(".above").addClass("hidden");
+            }
         }
     });
     
@@ -437,6 +442,7 @@ window.Backbone = window.Backbone || {};
          */
         ,multiple: function(accountNumbers) {
             var self = this;
+            if(accountNumbers.length > 15) accountNumbers = accountNumbers.slice(0, 15);
             app.properties = new app.Collections.Properties(null, {actnum: accountNumbers});
             util.loading(true);
             app.properties.fetch({
