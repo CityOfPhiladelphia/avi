@@ -7,7 +7,7 @@ The Actual Value Initiative, or AVI, is a program for re-evaluating all properti
 
 ##Help Improve This App
 
-If you wish to contribute to the L&I Property History app, or suggest a bug fix, you may submit a pull request as follows:
+If you wish to contribute to this app, or suggest a bug fix, you may submit a pull request as follows:
 
 1. Fork this repo.
 2. Create a new branch from <code>HEAD</code>.
