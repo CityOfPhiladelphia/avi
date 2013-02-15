@@ -12,7 +12,7 @@ window.Backbone = window.Backbone || {};
      */
     window.DEBUG = false; // Global
     _.templateSettings.variable = "data"; // Namespace for template data
-    $.ajaxSetup({cache: true}); // Cache ajax requests (used by typeahead)
+    $.ajaxSetup({cache: true, timeout: 15000}); // Cache ajax requests (used by typeahead)
     
     /**
      * If no CORS support, use jquery-jsonp library for ajax
@@ -227,13 +227,31 @@ window.Backbone = window.Backbone || {};
             ,"click .above": "showBeneath"
             ,"change #rate": "estimate"
             ,"change #homestead": "estimate"
-            ,"change #homesteadAmount": "estimate"
         }
         ,render: function() {
             this.$el.html(this.template({property: this.model.toJSON(), calculations: this.calculate()}));
+            this.activateSlider();
             this.estimate();
-            this.title = this.model.get("address");
             return this;
+        }
+        ,activateSlider: function() {
+            var sliderNode = this.$("#slider")
+                ,rateNode = this.$("#rate")
+                ,self = this;
+            this.title = this.model.get("address");
+            sliderNode.slider({
+                orientation: "horizontal",
+                range: "min",
+                min: 0,
+                max: 250,
+                value: 0,
+                slide: function (event, ui) {
+                    rateNode.html(ui.value / 100 + "%").data("value", ui.value / 100);
+                    self.estimate();
+                }
+            });
+            rateNode.html(sliderNode.slider("value") / 100 + "%").data("value", sliderNode.slider("value") / 100);
+            
         }
         ,changeRate: function(e) {
             e.preventDefault();
@@ -249,16 +267,16 @@ window.Backbone = window.Backbone || {};
         ,estimate: function() {
             var marketValue = this.model.get("value2014market")
                 ,exemptValue = this.model.get("value2014exempt")
-                ,homesteadAmount = this.$("#homestead").is(":checked") ? parseInt(this.$("#homesteadAmount").val(), 0) : 0
-                ,rate = parseFloat(this.$("#rate").val())
-                ,taxableValue = marketValue - exemptValue - homesteadAmount
-                ,newTax = Math.max(0, taxableValue * (rate / 100));
+                ,homestead = parseInt(this.$("#homestead").val(), 0)
+                ,rate = parseFloat(this.$("#rate").data("value"))
+                ,taxableValue = marketValue - exemptValue - homestead
+                ,tax = Math.max(0, taxableValue * (rate / 100));
             
             // Show taxable market value
             this.$("#taxable-value").text("$" + util.formatNumber(taxableValue));
                 
             // Show new tax
-            this.$("#tax").text("$" + util.formatNumber(newTax, 2));
+            this.$("#tax").text("$" + util.formatNumber(tax, 2));
         }
         ,calculate: function(homestead, rate1, rate2) {
             var self = this

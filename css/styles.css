@@ -43,3 +43,7 @@
 /* Estimate Button */
 .beneath { display: none; }
 .above.hidden + .beneath { display: inline-block; }
+
+/* Tax slider */
+#rate, #slider { display: inline-block; }
+#slider { width: 70%; }
