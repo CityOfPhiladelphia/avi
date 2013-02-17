@@ -47,3 +47,6 @@
 /* Tax slider */
 #rate, #slider { display: inline-block; }
 #slider { width: 70%; }
+
+/* Properties list margin */
+#list { margin-bottom: 0px; }

@@ -33,9 +33,26 @@ window.Backbone = window.Backbone || {};
      */
     app.Models.Property = Backbone.Model.extend({
         initialize: function() {
-            var value2013market = this.get("value2013market");
+            var value2013market = this.get("value2013market")
+                ,extcondition = this.get("extcondition")
+                ,extconditionLabel;
             if(value2013market) {
                 this.set("tax2013", Math.max(0, (value2013market - this.get("value2013exempt") || 0) * 0.32 * 0.09771));
+            }
+            // Lookup ext condition value. Small enough table that we can store the values here
+            if(extcondition !== undefined) {
+                switch(extcondition) {
+                    case "0": extconditionLabel = "Not Applicable"; break;
+                    case "1": extconditionLabel = "1"; break;
+                    case "2": extconditionLabel = "New / Rehabbed"; break;
+                    case "3": extconditionLabel = "Above Average"; break;
+                    case "4": extconditionLabel = "Average"; break;
+                    case "5": extconditionLabel = "Below Average"; break;
+                    case "6": extconditionLabel = "Vacant"; break;
+                    case "7": extconditionLabel = "Sealed / Structurally Compliant"; break;
+                    default: extconditionLabel = ""; break;
+                }
+                this.set("extcondition", extconditionLabel);
             }
         }
     });
@@ -46,9 +63,8 @@ window.Backbone = window.Backbone || {};
      */
     app.Collections.Properties = Backbone.Collection.extend({
         model: app.Models.Property
-        ,actnum: null
         ,settings: {
-            apiHost: "http://gis.phila.gov/ArcGIS/rest/services/OPA/AVI_2013_2014/MapServer/0/query"
+            apiHost: "http://gis.phila.gov/ArcGIS/rest/services/OPA/AVI_2013_2014_ADDL/MapServer/0/query"
             ,params: {
                 text: ""
                 ,geometry: ""
@@ -82,10 +98,24 @@ window.Backbone = window.Backbone || {};
                 ,value2014land: "LANDVAL_14"
                 ,value2014imp: "IMPVAL_14"
                 ,value2014exempt: "ABAT_EX_14"
+                // Property lookup fields
+                ,owner1: "OWNR_NAM"
+                ,owner2: "SECD_NAME"
+                ,zip: "PLOC_ZIP5"
+                ,landarea: "PLOTAREA"
+                ,imparea: "TOTDWELLAREA"
+                ,beginpoint: "DIST_FROM"
+                ,extcondition: "EXTCOND"
+                ,zoning: "ZONE_"
+                ,saledate: "TITL_DATE"
+                ,saleprice: "SALE_PRICE"
             }
         }
         ,initialize: function(models, options) {
             this.actnum = options.actnum || null;
+            this.offset = 0;
+            this.limit = 30;
+            this.moreAvailable = false;
         }
         /**
          * Generate URL
@@ -94,7 +124,10 @@ window.Backbone = window.Backbone || {};
         ,url: function() {
             var data = _.clone(this.settings.params);
             if(typeof this.actnum === "object" && this.actnum.length) {
-                data.where = this.settings.fields.actnum + " IN ('" + this.actnum.join("','") + "')";
+                var searchList = this.actnum.slice(this.offset, this.offset + this.limit);
+                this.moreAvailable = this.actnum.length > this.offset + this.limit ? true : false;
+                
+                data.where = this.settings.fields.actnum + " IN ('" + searchList.join("','") + "')";
                 data.outFields = [this.settings.fields.actnum, this.settings.fields.address, this.settings.fields.unit].join(",");
             } else {
                 data.where = this.settings.fields.actnum + " = '" + this.actnum + "'";
@@ -284,13 +317,63 @@ window.Backbone = window.Backbone || {};
     app.Views.PropertiesView = Backbone.View.extend({
         className: "properties"
         ,initialize: function() {
+            _.bindAll(this, "onClickMore");
             this.template = _.template($("#tmpl-properties").html());
+            this.collection.on("add", this.addRow, this);
+        }
+        ,events: {
+            "click .more": "onClickMore"
         }
         ,render: function() {
-            this.$el.html(this.template({properties: this.collection.toJSON(), moreAvailable: this.options.moreAvailable}));
+            var list;
+            this.$el.html(this.template({properties: this.collection.toJSON()}));
+            list = this.$("#list");
+            this.collection.each(function(model) {
+                // TODO: Ideally I'd only call append() once to limit DOM insertions, but how do I append an array of el's?
+                list.append((new app.Views.PropertiesRowView({model: model})).render().el);
+            });
+            this.checkMoreButton();
             return this;
         }
+        ,addRow: function(model) {
+            this.$("#list").append((new app.Views.PropertiesRowView({model: model})).render().el);
+            this.checkMoreButton();
+        }
+        ,onClickMore: function(e) {
+            e.preventDefault();
+            var button = $(e.currentTarget);
+            button.button("loading");
+            this.collection.offset = this.collection.offset + this.collection.limit;
+            this.collection.fetch({
+                update: true // Not sure why properties collection is being *replaced* with these, but it doesn't really matter
+                ,success: function() {
+                    button.button("reset");
+                }
+                ,error: function() {
+                    button.button("error");
+                }
+            })
+        }
+        ,checkMoreButton: function() {
+            this.$(".more").toggle(this.collection.moreAvailable);
+        }
     });
+    
+    /**
+     * Property Row View
+     * The individual row in the list of multiple properties found in a search result
+     * Separated in order to add the 'more' button with 'add' events
+     */
+    app.Views.PropertiesRowView = Backbone.View.extend({
+        tagName: "li"
+        ,initialize: function() {
+            this.template = _.template($("#tmpl-properties-row").html());
+        }
+        ,render: function() {
+            this.$el.html(this.template({property: this.model.toJSON()}));
+            return this;
+        }
+    })
     
     /**
      * Error View
@@ -412,22 +495,14 @@ window.Backbone = window.Backbone || {};
          * Takes an array of account number strings. Called internally, not by a route.
          */
         ,multiple: function(accountNumbers) {
-            var self = this, moreAvailable = false;
-            
-            // We can only request so many in a GET request due to URL size limitations
-            // TODO: Try POST or add pagination here
-            if(accountNumbers.length > 15) {
-                accountNumbers = accountNumbers.slice(0, 15);
-                moreAvailable = true;
-            }
-            
+            var self = this;
             app.properties = new app.Collections.Properties(null, {actnum: accountNumbers});
             util.loading(true);
             app.properties.fetch({
                 success: function(collection, response, options) {
                     util.loading(false);
                     // We'll assume we never get a length of 1 from ArcGIS if ulrs311 gives us multiple account numbers
-                    app.propertiesView = new app.Views.PropertiesView({collection: collection, moreAvailable: moreAvailable});
+                    app.propertiesView = new app.Views.PropertiesView({collection: collection});
                     self.showView(app.propertiesView);
                 }
                 ,error: function(collection, xhr, options) {

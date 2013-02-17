@@ -41,7 +41,7 @@
 
     <!-- Phila.gov Nav Bar -->
     <div class="navbar navbar-inverse navbar-fixed-top">
-    	<div class="navbar-inner">
+        <div class="navbar-inner">
 			<div class="container">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
@@ -178,9 +178,51 @@
             </div>
             <% } %>
         </div>
+        <div class="widget">
+            <div class="widget-header">
+                <h3>Property Information</h3>
+            </div>
+            <div class="widget-content">
+                <div class="row">
+                    <div class="span6">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Owner(s)</li>
+                            <li>
+                                <%= data.property.owner1 %>
+                                <% if(data.property.owner1) { %><br><%= data.property.owner2 %><% } %>
+                            </li>
+                            <li class="nav-header">Zip Code</li>
+                            <li><%= data.property.zip %>
+                            <li class="nav-header">Sale Date</li>
+                            <% saledateParts = data.property.saledate.match(/.{1,2}/g); %>
+                            <li><%= typeof saledateParts === "object" ? saledateParts.join("/") : data.property.saledate %></li>
+                            <li class="nav-header">Sale Price*</li>
+                            <li>$<%= util.formatNumber(data.property.saleprice || 0) %></li>
+                            <li class="nav-header">Homestead</li>
+                            <li><%= data.property.homestead %></li>
+                        </ul>
+                    </div>
+                    <div class="span5">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Land Area</li>
+                            <li><%= util.formatNumber(data.property.landarea || 0) %> SqFt</li>
+                            <li class="nav-header">Improvement Area</li>
+                            <li><%= util.formatNumber(data.property.imparea || 0) %> SqFt</li>
+                            <li class="nav-header">Beginning Point</li>
+                            <li><%= data.property.beginpoint %></li>
+                            <li class="nav-header">Exterior Condition</li>
+                            <li><%= data.property.extcondition %></li>
+                            <li class="nav-header">Zoning</li>
+                            <li><%= data.property.zoning %></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <p>These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates.</p>
         <p>To learn more about AVI, please go to <a href="http://www.phila.gov/opa" target="_blank">www.phila.gov/opa</a></p>
         <p>If you think your new value does not reflect what it could sell for in the market, you may file an informal review with the OPA and/or appeal to the BRT.</p>
+        <p>* The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value.</p>
         
         <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
         
@@ -188,15 +230,16 @@
     
     <script type="text/template" id="tmpl-properties">
         <h3>Multiple properties found</h3>
-        <ul class="nav nav-tabs nav-stacked">
-        <% _.each(data.properties, function(property) { %>
-            <li><a href="#view/<%= property.actnum %>"><%= property.address %><% if(property.unit) { %> UNIT: <%= property.unit %><% } %></a></li>
-        <% }); %>
-        </ul>
+        <ul class="nav nav-tabs nav-stacked" id="list"></ul>
         <% if(data.moreAvailable) { %>
-            <div class="alert alert-info">There are more results for this address, but you'll need to search on <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a> to see them.</div>
+            <div class="alert alert-info">There are more results for this address, but you'll need to search by your account number or search on <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a> to see them.</div>
         <% } %>
-        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+        <button class="btn btn-large btn-block more" type="button" data-loading-text="Loading" data-error-text="Error!">More</button>
+        <br><br><a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+    </script>
+    
+    <script type="text/template" id="tmpl-properties-row">
+        <a href="#view/<%= data.property.actnum %>"><%= data.property.address %><% if(data.property.unit) { %> UNIT: <%= data.property.unit %><% } %></a>
     </script>
     
     <script type="text/template" id="tmpl-error">
