@@ -166,7 +166,7 @@
                             <li class="nav-header">Taxable Market Value</li>
                             <li><span id="taxable-value"></span></li>
                             <li class="nav-header">Tax Rate</li>
-                            <li><div id="rate"></div><div id="slider"></div></li>
+                            <li><div id="rate"></div><div id="slider" rel="tooltip" title="Slide to adjust tax rate"></div></li>
                             <li class="nav-header">Estimated 2014 Tax</li>
                             <li>
                                 <div class="above"><button class="btn btn-large disabled">Estimate</button></div>
@@ -194,7 +194,7 @@
                             <li class="nav-header">Zip Code</li>
                             <li><%= data.property.zip %>
                             <li class="nav-header">Sale Date</li>
-                            <% saledateParts = data.property.saledate.match(/.{1,2}/g); %>
+                            <% saledateParts = data.property.saledate ? data.property.saledate.match(/.{1,2}/g) : ""; %>
                             <li><%= typeof saledateParts === "object" ? saledateParts.join("/") : data.property.saledate %></li>
                             <li class="nav-header">Sale Price*</li>
                             <li>$<%= util.formatNumber(data.property.saleprice || 0) %></li>
@@ -219,7 +219,7 @@
                 </div>
             </div>
         </div>
-        <p>These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates.</p>
+        <p>These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates. The tax rate and the types of relief programs (such as the homestead exemption) will be set by City Council and the Mayor during the budget process.</p>
         <p>To learn more about AVI, please go to <a href="http://www.phila.gov/opa" target="_blank">www.phila.gov/opa</a></p>
         <p>If you think your new value does not reflect what it could sell for in the market, you may file an informal review with the OPA and/or appeal to the BRT.</p>
         <p>* The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value.</p>
@@ -231,9 +231,6 @@
     <script type="text/template" id="tmpl-properties">
         <h3>Multiple properties found</h3>
         <ul class="nav nav-tabs nav-stacked" id="list"></ul>
-        <% if(data.moreAvailable) { %>
-            <div class="alert alert-info">There are more results for this address, but you'll need to search by your account number or search on <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a> to see them.</div>
-        <% } %>
         <button class="btn btn-large btn-block more" type="button" data-loading-text="Loading" data-error-text="Error!">More</button>
         <br><br><a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
     </script>

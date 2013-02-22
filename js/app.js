@@ -263,6 +263,7 @@ window.Backbone = window.Backbone || {};
         ,render: function() {
             this.$el.html(this.template({property: this.model.toJSON()}));
             this.activateSlider();
+            this.activateTooltip();
             this.estimate();
             return this;
         }
@@ -285,6 +286,9 @@ window.Backbone = window.Backbone || {};
             });
             rateNode.html(sliderNode.slider("value") / 100 + "%").data("value", sliderNode.slider("value") / 100);
             
+        }
+        ,activateTooltip: function() {
+            this.$("[rel=\"tooltip\"]").tooltip();
         }
         ,estimate: function() {
             var marketValue = this.model.get("value2014market")
