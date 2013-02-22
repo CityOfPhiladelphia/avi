@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/lib/widget.css">
-    <link rel="stylesheet" href="css/lib/jquery-ui-slider.css">
     <link rel="stylesheet" href="css/styles.css">
     <script type='text/javascript'>
         window._gaq = window._gaq || [];
@@ -166,7 +165,17 @@
                             <li class="nav-header">Taxable Market Value</li>
                             <li><span id="taxable-value"></span></li>
                             <li class="nav-header">Tax Rate</li>
-                            <li><div id="rate"></div><div id="slider" rel="tooltip" title="Slide to adjust tax rate"></div></li>
+                            <li>
+                                <div id="rate-container" class="input-append">
+                                    <input class="span1 spinner-input" id="rate" type="text" value="0.00">
+                                    <span class="add-on">%</span>
+                                    <button class="btn spinner-down" type="button"><i class="icon-chevron-down"></i></button>
+                                    <button class="btn spinner-up" type="button"><i class="icon-chevron-up"></i></button>
+                                    <!--<span class="add-on" id="slider-container" rel="tooltip" title="Slide to adjust tax rate">
+                                        <span id="slider"></span>
+                                    </span>-->
+                                </div>
+                            </li>
                             <li class="nav-header">Estimated 2014 Tax</li>
                             <li>
                                 <div class="above"><button class="btn btn-large disabled">Estimate</button></div>
@@ -256,8 +265,7 @@
     <script>if(window.Backbone === undefined) document.write("<script src=\"js/lib/backbone-min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
     <script src="js/lib/jquery-jsonp.min.js"></script>
-    <script src="js/lib/jquery-ui-slider.min.js"></script>
-    <script src="js/lib/jquery-ui-touch-punch.min.js"></script>
+    <script src="js/lib/spinner.js"></script>
     <script src="js/util.js"></script>
     <script src="js/app.js"></script>
 </body>

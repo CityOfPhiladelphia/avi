@@ -46,7 +46,8 @@
 
 /* Tax slider */
 #rate, #slider { display: inline-block; }
-#slider { width: 70%; }
+#slider { width: 90%; }
+#slider-container { width: 55%; }
 
 /* Properties list margin */
 #list { margin-bottom: 0px; }

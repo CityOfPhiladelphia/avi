@@ -252,22 +252,22 @@ window.Backbone = window.Backbone || {};
     app.Views.PropertyView = Backbone.View.extend({
         className: "property"
         ,initialize: function() {
-            _.bindAll(this, "estimate");
+            _.bindAll(this, "estimate", "onChangeRate", "incrementDecrement");
             this.template = _.template($("#tmpl-property").html());
         }
         ,events: {
             "click .above button": "showBeneath"
-            ,"change #rate": "estimate"
+            ,"change #rate": "onChangeRate"
             ,"change #homestead": "estimate"
+            ,"change #rate-container": "onChangeRate"
         }
         ,render: function() {
             this.$el.html(this.template({property: this.model.toJSON()}));
-            this.activateSlider();
-            this.activateTooltip();
+            this.activateSpinner();
             this.estimate();
             return this;
         }
-        ,activateSlider: function() {
+        /*,activateSlider: function() {
             var sliderNode = this.$("#slider")
                 ,rateNode = this.$("#rate")
                 ,self = this;
@@ -279,22 +279,48 @@ window.Backbone = window.Backbone || {};
                 max: 250,
                 value: 0,
                 slide: function (event, ui) {
-                    rateNode.html(ui.value / 100 + "%").data("value", ui.value / 100);
+                    rateNode.val(ui.value / 100);
                     self.estimate();
                     self.$(".above button").removeClass("disabled");
                 }
             });
-            rateNode.html(sliderNode.slider("value") / 100 + "%").data("value", sliderNode.slider("value") / 100);
+            rateNode.val(sliderNode.slider("value") / 100);
             
+        }*/
+        ,activateSpinner: function() {
+            this.$("#rate-container").spinner({min: 0, max: 9999, value: 0.00, step: 0.01});
         }
-        ,activateTooltip: function() {
+        ,incrementDecrement: function(e) {
+            //e.preventDefault();
+            var rateNode = this.$("#rate")
+                ,rate = parseFloat(rateNode.val()) || 0
+                ,buttonNode = $(e.currentTarget)
+                ,step = buttonNode.data("step")
+                ,delta = buttonNode.hasClass("decrement") ? step * -1 : step
+                ,button = this.$(".above button");
+            rateNode.val(Math.max(0, rate + delta).toFixed(2));
+            
+            if(button.hasClass("disabled")) button.removeClass("disabled");
+            
+            this.estimate();
+        }
+        ,onChangeRate: function(e) {
+            var newRate = parseFloat(this.$("#rate").val())
+                ,button = this.$(".above button");
+            if( ! isNaN(newRate) && newRate !== undefined && newRate > 0) {
+                //this.$("#slider").slider("option", "value", newRate * 100);
+                if(button.hasClass("disabled")) button.removeClass("disabled");
+                this.estimate();
+            }
+        }
+        /*,activateTooltip: function() {
             this.$("[rel=\"tooltip\"]").tooltip();
-        }
+        }*/
         ,estimate: function() {
             var marketValue = this.model.get("value2014market")
                 ,exemptValue = this.model.get("value2014exempt")
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
-                ,rate = parseFloat(this.$("#rate").data("value"))
+                ,rate = parseFloat(this.$("#rate").val())
                 ,taxableValue = marketValue - exemptValue - homestead
                 ,tax = Math.max(0, taxableValue * (rate / 100));
             
