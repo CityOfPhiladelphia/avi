@@ -1,3 +1,5 @@
+body { margin-bottom: 20px; }
+
 /* Margin on container */
 #main { margin-bottom: 15px; }
 
@@ -5,6 +7,9 @@
 .home h3 { font-size: 18px; font-weight: 200; line-height: 25px; color: inherit; }
 .home h1 { margin-bottom: 0; font-size: 60px; line-height: 1; letter-spacing: -1px; color: inherit; }
 .home .btn-primary { margin-top: 10px; }
+
+/* Put ACCOUNT # and UNIT # in all caps */
+.property h1 small, .unit { text-transform: uppercase; }
 
 /* Emphasize market value like a bold .lead */
 .marketvalue { margin-bottom: 20px; font-size: 21px; line-height: 30px; font-weight: bold; }

@@ -13,6 +13,7 @@ window.Backbone = window.Backbone || {};
     window.DEBUG = false; // Global
     _.templateSettings.variable = "data"; // Namespace for template data
     $.ajaxSetup({cache: true, timeout: 15000}); // Cache ajax requests (used by typeahead)
+    app.language = $.cookie("language") || "en";
     
     /**
      * If no CORS support, use jquery-jsonp library for ajax
@@ -42,14 +43,14 @@ window.Backbone = window.Backbone || {};
             // Lookup ext condition value. Small enough table that we can store the values here
             if(extcondition !== undefined) {
                 switch(extcondition) {
-                    case "0": extconditionLabel = "Not Applicable"; break;
-                    case "1": extconditionLabel = "1"; break;
-                    case "2": extconditionLabel = "New / Rehabbed"; break;
-                    case "3": extconditionLabel = "Above Average"; break;
-                    case "4": extconditionLabel = "Average"; break;
-                    case "5": extconditionLabel = "Below Average"; break;
-                    case "6": extconditionLabel = "Vacant"; break;
-                    case "7": extconditionLabel = "Sealed / Structurally Compliant"; break;
+                    case "0": extconditionLabel = window.D("cond_0"); break;
+                    case "1": extconditionLabel = window.D("cond_1"); break;
+                    case "2": extconditionLabel = window.D("cond_2"); break;
+                    case "3": extconditionLabel = window.D("cond_3"); break;
+                    case "4": extconditionLabel = window.D("cond_4"); break;
+                    case "5": extconditionLabel = window.D("cond_5"); break;
+                    case "6": extconditionLabel = window.D("cond_6"); break;
+                    case "7": extconditionLabel = window.D("cond_7"); break;
                     default: extconditionLabel = ""; break;
                 }
                 this.set("extcondition", extconditionLabel);
@@ -204,11 +205,13 @@ window.Backbone = window.Backbone || {};
     app.Views.HomeView = Backbone.View.extend({
         className: "home"
         ,initialize: function() {
-            _.bindAll(this, "onSubmit");
+            _.bindAll(this, "render", "onSubmit", "onChangeLanguage");
             this.template = _.template($("#tmpl-home").html());
+            this.title = window.D("app_title");
         }
         ,events: {
-            "click .btn-group a": "onChangeBtnGroup"
+            "click #field a": "onChangeBtnGroup"
+            ,"click #language a": "onChangeLanguage"
             ,"submit form": "onSubmit"
         }
         ,render: function() {
@@ -222,6 +225,13 @@ window.Backbone = window.Backbone || {};
             btnGroup.find(".dropdown-value").text(anchor.text());
             btnGroup.data("value", anchor.data("value"));
             btnGroup.next("[name=\"input\"]").attr("placeholder", anchor.data("placeholder"));
+        }
+        ,onChangeLanguage: function(e) {
+            e.preventDefault();
+            var language = $(e.currentTarget).data("value") || "en";
+            $.cookie("language", language);
+            app.language = language;
+            setTimeout(this.render, 10);
         }
         ,onSubmit: function(e) {
             e.preventDefault();
@@ -265,13 +275,13 @@ window.Backbone = window.Backbone || {};
             this.$el.html(this.template({property: this.model.toJSON()}));
             this.activateSpinner();
             this.estimate();
+            this.title = this.model.get("address");
             return this;
         }
         /*,activateSlider: function() {
             var sliderNode = this.$("#slider")
                 ,rateNode = this.$("#rate")
                 ,self = this;
-            this.title = this.model.get("address");
             sliderNode.slider({
                 orientation: "horizontal",
                 range: "min",
@@ -350,6 +360,7 @@ window.Backbone = window.Backbone || {};
             _.bindAll(this, "onClickMore");
             this.template = _.template($("#tmpl-properties").html());
             this.collection.on("add", this.addRow, this);
+            this.title = window.D("multiple_properties_found");
         }
         ,events: {
             "click .more": "onClickMore"
@@ -411,10 +422,10 @@ window.Backbone = window.Backbone || {};
      */
     app.Views.ErrorView = Backbone.View.extend({
         className: "error"
-        ,title: "Error"
         ,initialize: function() {
             this.template = _.template($("#tmpl-error").html());
             this.message = this.options.message;
+            this.title = window.D("error");
         }
         ,events: {
             "click [rel=\"reload\"]": "reload"
@@ -486,7 +497,7 @@ window.Backbone = window.Backbone || {};
                 ,error: function(collection, xhr, options) {
                     util.loading(false);
                     self.error(collection, xhr, options
-                        ,"An error occurred while finding the property in the database. Please try again."
+                        ,window.D("error_database")
                         ,{field: "actnum", input: actnum, noresults: true}
                     );
                 }
@@ -514,7 +525,7 @@ window.Backbone = window.Backbone || {};
                 ,error: function(collection, xhr, options) {
                     util.loading(false);
                     self.error(collection, xhr, options
-                        ,"An error occurred while verifying the address. Please try again."
+                        ,window.D("error_verifying")
                         ,{field: "address", input: input, noresults: true}
                     );
                 }
@@ -538,7 +549,7 @@ window.Backbone = window.Backbone || {};
                 ,error: function(collection, xhr, options) {
                     util.loading(false);
                     self.error(collection, xhr, options
-                        ,"An error occurred while looking up the new values for the address. Please try again."
+                        ,window.D("error_database")
                     );
                 }
             });
@@ -554,7 +565,7 @@ window.Backbone = window.Backbone || {};
                 app.homeView = new app.Views.HomeView(home404data);
                 this.showView(app.homeView);
             } else {
-                app.errorView = new app.Views.ErrorView({message: message || "An error occurred. Please try again."});
+                app.errorView = new app.Views.ErrorView({message: message || window.D("error_generic")});
                 this.showView(app.errorView);
             }
         }
@@ -573,9 +584,11 @@ window.Backbone = window.Backbone || {};
     });
     
     /**
-     * Executed Immediately
+     * Initiate application
      */
-    app.router = new app.Routers.AppRouter();
-    Backbone.history.start();
+    $(document).ready(function() {
+        app.router = new app.Routers.AppRouter();
+        Backbone.history.start();
+    });
     
 })(window, window.jQuery, window._, window.Backbone, window.AVI, window.util);

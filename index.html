@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title data-default="AVI Calculator">AVI Calculator</title>
+    <title>AVI Calculator</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css">
     <style>body{padding-top:60px;}</style>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap-responsive.min.css">
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/lib/widget.css">
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Logging -->
     <script type='text/javascript'>
         window._gaq = window._gaq || [];
         window._gaq.push(["_setAccount", "UA-35850648-4"]);
@@ -60,56 +64,75 @@
 				</div>
 			</div>
 		</div>
-	</div><!-- /.navbar -->
+	</div>
     
+    <!-- Main Content Container -->
     <div class="container" id="main"></div>
     
+    <!-- AJAX loading spinner -->
     <div class="loader"><span class="icon"></span></div>
     
+    <!-- Home View Template -->
     <script type="text/template" id="tmpl-home">
-        <h1>AVI Calculator</h1>
-        <h3>You can use this application to estimate your real estate tax under the Actual Value Initiative (AVI).</h3>
-        <p>The Actual Value Initiative, or AVI, is a program for re-evaluating all properties in the city to ensure that values are fair and accurate. It also provides for an easier to understand tax system by removing complicated fractions when calculating tax bills.</p>
+        <h1><%= D("app_title") %></h1>
+        <h3><%= D("app_desc1") %></h3>
+        <p><%= D("app_desc2") %></p>
         <% if(data.noresults) { %>
-        <div class="alert alert-error">No matches found for <code><%= data.input %></code>. <%= data.field !== "actnum" ? "For best results, try entering the account number of your property.<br>" : "" %>If you think this should have worked, you can try searching at <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a></div>
+        <div class="alert alert-error"><%= D("error_no_matches", data.input) %> <%= data.field !== "actnum" ? D("error_best_results") : "" %><%= D("error_should_have_worked") %></div>
         <% } %>
         <form>
             <div class="input-prepend">
                 <div class="btn-group" id="field" data-value="<%= data.field || "address"%>">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
-                        <span class="dropdown-value"><%= data.field === "actnum" ? "Account #" : "Address" %></span>
+                        <span class="dropdown-value"><%= data.field === "actnum" ? D("account") : D("address") %></span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="" data-value="address" data-placeholder="ex. 908 N 3rd St">Address</a></li>
-                        <li><a href="" data-value="actnum" data-placeholder="ex. 883525510">Account #</a></li>
+                        <li><a href="" data-value="address" data-placeholder="<%= D("address_example") %>"><%= D("address") %></a></li>
+                        <li><a href="" data-value="actnum" data-placeholder="<%= D("account_example") %>"><%= D("account") %></a></li>
                     </ul>
                 </div>
-                <input type="text" name="input" id="input" value="<%= data.input || ""%>" placeholder="<%= data.field === "actnum" ? "ex. 011028555" : "ex. 908 N 3rd St" %>" data-provide="typeahead" autofocus>
+                <input type="text" name="input" id="input" value="<%= data.input || "" %>" placeholder="<%= data.field === "actnum" ? D("account_example") : D("address_example") %>" autofocus>
             </div>
-            <button class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> Search</button>
+            <button class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> <%= D("search_button") %></button>
         </form>
+        
+        <ul id="language" class="nav nav-pills pull-right">
+            <li<% if(AVI.language === "en"){ %> class="active"<%}%>><a href="" data-value="en">English</a></li>
+            <li<% if(AVI.language === "es"){ %> class="active"<%}%>><a href="" data-value="es">Español</a></li>
+            <li<% if(AVI.language === "zh"){ %> class="active"<%}%>><a href="" data-value="zh">繁體中文</a></li>
+            <li<% if(AVI.language === "ko"){ %> class="active"<%}%>><a href="" data-value="ko">한국어</a></li>
+            <li<% if(AVI.language === "ru"){ %> class="active"<%}%>><a href="" data-value="ru">Русский</a></li>
+            <li<% if(AVI.language === "vi"){ %> class="active"<%}%>><a href="" data-value="vi">Tiếng Việt</a></li>
+        </ul>
     </script>
     
+    <!-- Property View Template -->
     <script type="text/template" id="tmpl-property">
-        <h1><%= data.property.address %><%= $.trim(data.property.unit) ? " UNIT: " + data.property.unit : "" %><small> ACCOUNT #<%= data.property.actnum %></small></h1>
+        <h1>
+            <%= data.property.address %>
+            <% if($.trim(data.property.unit)) { %>
+                <span class="unit"><%= D("unit") %>: <%= data.property.unit %></span>
+            <% } %>
+            <small><%= D("account") %> <%= data.property.actnum %></small>
+        </h1>
         <div class="row">
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
-                        <h3>Previous Value</h3>
+                        <h3><%= D("previous_value") %></h3>
                     </div>
                     <div class="widget-content">
                         <ul class="nav nav-list">
-                            <li class="nav-header">Market Value</li>
+                            <li class="nav-header"><%= D("market_value") %></li>
                             <li><span class="marketvalue">$<%= util.formatNumber(data.property.value2013market) %></span></li>
-                            <li class="nav-header">Land Value</li>
+                            <li class="nav-header"><%= D("land_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2013land) %></li>
-                            <li class="nav-header">Improvement Value</li>
+                            <li class="nav-header"><%= D("improvement_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2013imp) %></li>
-                            <li class="nav-header">Abatement/Exempt Value</li>
+                            <li class="nav-header"><%= D("exempt_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2013exempt) %></li>
-                            <li class="nav-header">2013 Tax</li>
+                            <li class="nav-header"><%= D("tax_2013") %></li>
                             <li>$<%= util.formatNumber(data.property.tax2013, 0) %></li>
                         </ul>
                     </div>
@@ -118,22 +141,22 @@
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
-                        <h3>New Value</h3>
+                        <h3><%= D("new_value") %></h3>
                     </div>
                     <div class="widget-content">
                         <% if(data.property.value2014market >= 0) { %>
                         <ul class="nav nav-list">
-                            <li class="nav-header">Market Value</li>
+                            <li class="nav-header"><%= D("market_value") %></li>
                             <li><span class="marketvalue">$<%= util.formatNumber(data.property.value2014market) %></span></li>
-                            <li class="nav-header">Land Value</li>
+                            <li class="nav-header"><%= D("land_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2014land) %></li>
-                            <li class="nav-header">Improvement Value</li>
+                            <li class="nav-header"><%= D("improvement_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2014imp) %></li>
-                            <li class="nav-header">Abatement/Exempt Value</li>
+                            <li class="nav-header"><%= D("exempt_value") %></li>
                             <li>$<%= util.formatNumber(data.property.value2014exempt) %></li>
                         </ul>
                         <% } else { %>
-                        Data for this property is being updated. Please check back later.
+                            <%= D("error_being_updated") %>
                         <% } %>
                     </div>
                 </div>
@@ -142,19 +165,17 @@
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
-                        <h3>Estimate 2014 Tax</h3>
+                        <h3><%= D("estimate_2014_tax") %></h3>
                     </div>
                     <div class="widget-content">
-                        <p>In order to generate the same amount of revenue next year as is estimated for this year,
-                        a minimum tax rate of 1.25% is needed without any relief measures. With a $30,000 homestead exemption program,
-                        a minimum of 1.34% is needed.</p>
+                        <p><%= D("tax_desc") %></p>
                         
                         <ul class="nav nav-list">
-                            <li class="nav-header">Homestead Exemption</li>
+                            <li class="nav-header"><%= D("homestead_exemption") %></li>
                             <li>
                                 <select name="homestead" id="homestead" class="input-medium">
-                                    <option value="0">Select...</option>
-                                    <option value="0">No Homestead</option>
+                                    <option value="0"><%= D("select_option") %>...</option>
+                                    <option value="0"><%= D("no_homestead") %></option>
                                     <option value="10000">$10,000</option>
                                     <option value="15000">$15,000</option>
                                     <option value="20000">$20,000</option>
@@ -162,9 +183,9 @@
                                     <option value="30000">$30,000</option>
                                 </select>
                             </li>
-                            <li class="nav-header">Taxable Market Value</li>
+                            <li class="nav-header"><%= D("taxable_market_value") %></li>
                             <li><span id="taxable-value"></span></li>
-                            <li class="nav-header">Tax Rate</li>
+                            <li class="nav-header"><%= D("tax_rate") %></li>
                             <li>
                                 <div id="rate-container" class="input-append">
                                     <input class="span1 spinner-input" id="rate" type="text" value="0.00">
@@ -176,9 +197,9 @@
                                     </span>-->
                                 </div>
                             </li>
-                            <li class="nav-header">Estimated 2014 Tax</li>
+                            <li class="nav-header"><%= D("estimated_2014_tax") %></li>
                             <li>
-                                <div class="above"><button class="btn btn-large disabled">Estimate</button></div>
+                                <div class="above"><button class="btn btn-large disabled"><%= D("estimate_button") %></button></div>
                                 <div class="beneath"><span id="tax"></span></div>
                             </li>
                         </ul>
@@ -189,74 +210,78 @@
         </div>
         <div class="widget">
             <div class="widget-header">
-                <h3>Property Information</h3>
+                <h3><%= D("property_info") %></h3>
             </div>
             <div class="widget-content">
                 <div class="row">
                     <div class="span6">
                         <ul class="nav nav-list">
-                            <li class="nav-header">Owner(s)</li>
+                            <li class="nav-header"><%= D("owners") %></li>
                             <li>
                                 <%= data.property.owner1 %>
                                 <% if(data.property.owner1) { %><br><%= data.property.owner2 %><% } %>
                             </li>
-                            <li class="nav-header">Zip Code</li>
+                            <li class="nav-header"><%= D("zip") %></li>
                             <li><%= data.property.zip %>
-                            <li class="nav-header">Sale Date</li>
+                            <li class="nav-header"><%= D("sale_date") %></li>
                             <% saledateParts = data.property.saledate ? data.property.saledate.match(/.{1,2}/g) : ""; %>
                             <li><%= typeof saledateParts === "object" ? saledateParts.join("/") : data.property.saledate %></li>
-                            <li class="nav-header">Sale Price*</li>
+                            <li class="nav-header"><%= D("sale_price") %>*</li>
                             <li>$<%= util.formatNumber(data.property.saleprice || 0) %></li>
-                            <li class="nav-header">Homestead</li>
+                            <li class="nav-header"><%= D("homestead") %></li>
                             <li><%= data.property.homestead %></li>
                         </ul>
                     </div>
                     <div class="span5">
                         <ul class="nav nav-list">
-                            <li class="nav-header">Land Area</li>
+                            <li class="nav-header"><%= D("land_area") %></li>
                             <li><%= util.formatNumber(data.property.landarea || 0) %> SqFt</li>
-                            <li class="nav-header">Improvement Area</li>
+                            <li class="nav-header"><%= D("improvement_area") %></li>
                             <li><%= util.formatNumber(data.property.imparea || 0) %> SqFt</li>
-                            <li class="nav-header">Beginning Point</li>
+                            <li class="nav-header"><%= D("beginning_point") %></li>
                             <li><%= data.property.beginpoint %></li>
-                            <li class="nav-header">Exterior Condition</li>
+                            <li class="nav-header"><%= D("ext_condition") %></li>
                             <li><%= data.property.extcondition %></li>
-                            <li class="nav-header">Zoning</li>
+                            <li class="nav-header"><%= D("zoning") %></li>
                             <li><%= data.property.zoning %></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <p>These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates. The tax rate and the types of relief programs (such as the homestead exemption) will be set by City Council and the Mayor during the budget process.</p>
-        <p>To learn more about AVI, please go to <a href="http://www.phila.gov/opa" target="_blank">www.phila.gov/opa</a></p>
-        <p>If you think your new value does not reflect what it could sell for in the market, you may file an informal review with the OPA and/or appeal to the BRT.</p>
-        <p>* The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value.</p>
+        <p><%= D("disclaimer_rates")%></p>
+        <p><%= D("disclaimer_learn") %></p>
+        <p><%= D("disclaimer_appeal") %></p>
+        <p>* <%= D("disclaimer_sale_price") %></p>
         
-        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
         
     </script>
     
+    <!-- Multiple Properties View Template -->
     <script type="text/template" id="tmpl-properties">
-        <h3>Multiple properties found</h3>
+        <h3><%= D("multiple_properties_found") %></h3>
         <ul class="nav nav-tabs nav-stacked" id="list"></ul>
-        <button class="btn btn-large btn-block more" type="button" data-loading-text="Loading" data-error-text="Error!">More</button>
-        <br><br><a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> New Search</a>
+        <button class="btn btn-large btn-block more" type="button" data-loading-text="Loading" data-error-text="<%= D("error")%>"><%= D("more_button") %></button>
+        <br><br><a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
     </script>
     
+    <!-- Property Row View Template for Multiple Properties -->
     <script type="text/template" id="tmpl-properties-row">
-        <a href="#view/<%= data.property.actnum %>"><%= data.property.address %><% if(data.property.unit) { %> UNIT: <%= data.property.unit %><% } %></a>
+        <a href="#view/<%= data.property.actnum %>"><%= data.property.address %><% if(data.property.unit) { %> <span class="unit"><%= D("unit") %> : <%= data.property.unit %></span><% } %></a>
     </script>
     
+    <!-- Error View Template -->
     <script type="text/template" id="tmpl-error">
-        <h1>Error</h1>
+        <h1><%= D("error") %></h1>
         <%= data.message %>
-        <br>You can also try searching at <a href="http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search" target="_blank">phila.gov/opa</a>
+        <br><%= D("error_addendum") %>
         <br><br>
-        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> Home</a>
-        <a href="#" rel="reload" class="btn btn-large btn-info"><i class="icon-repeat icon-white"></i> Try Again</a>
+        <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
+        <a href="#" rel="reload" class="btn btn-large btn-info"><i class="icon-repeat icon-white"></i> <%= D("try_again_button") %></a>
     </script>
 
+    <!-- Libraries -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script>if(window.jQuery === undefined) document.write("<script src=\"js/lib/jquery.min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
@@ -264,9 +289,18 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
     <script>if(window.Backbone === undefined) document.write("<script src=\"js/lib/backbone-min.js\"><\/script>")</script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
+    <script src="js/lib/jquery.cookie.min.js"></script>
     <script src="js/lib/jquery-jsonp.min.js"></script>
     <script src="js/lib/spinner.js"></script>
+    
+    <!-- Application -->
     <script src="js/util.js"></script>
+    <script src="js/dictionary/en.js"></script>
+    <script src="js/dictionary/es.js"></script>
+    <script src="js/dictionary/ru.js"></script>
+    <script src="js/dictionary/zh.js"></script>
+    <script src="js/dictionary/vi.js"></script>
+    <script src="js/dictionary/ko.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
