@@ -298,7 +298,7 @@ window.Backbone = window.Backbone || {};
             
         }*/
         ,activateSpinner: function() {
-            this.$("#rate-container").spinner({min: 0, max: 9999, value: 0.00, step: 0.01});
+            this.$("#rate-container").spinner({min: 0, max: 999999, value: 1.3204, step: 0.0001});
         }
         ,incrementDecrement: function(e) {
             //e.preventDefault();

@@ -32,7 +32,7 @@ window.dictionary = window.dictionary || {};
         
         // Estimation Fields
         ,estimate_2014_tax: "Ước Tính Thuế Năm 2014"
-        ,tax_desc: "Để tạo ra cùng một số lượng doanh thu năm tới như được ước tính cho năm nay, thuế suất tối thiểu 1,25% là cần thiết mà không có bất kỳ biện pháp cứu trợ nào. Với chương trình miễn thuế nhà $30.000, tối thiểu 1,34% là cần thiết."
+        ,tax_desc: "Để tạo ra cùng một số lượng doanh thu năm tới như được ước tính cho năm nay, thuế suất tối thiểu 1,25% là cần thiết mà không có bất kỳ biện pháp cứu trợ nào. Với chương trình miễn thuế nhà $15.000, tối thiểu 1,3204% là cần thiết."
         ,homestead_exemption: "Miễn Thuế Nhà"
         ,no_homestead: "Không Phải Nhà Cửa"
         ,taxable_market_value: "Giá Trị Thị Trường Chịu Thuế"

@@ -188,18 +188,15 @@
                             <li class="nav-header"><%= D("tax_rate") %></li>
                             <li>
                                 <div id="rate-container" class="input-append">
-                                    <input class="span1 spinner-input" id="rate" type="text" value="0.00">
+                                    <input class="span1 spinner-input" id="rate" type="text" value="1.3204">
                                     <span class="add-on">%</span>
                                     <button class="btn spinner-down" type="button"><i class="icon-chevron-down"></i></button>
                                     <button class="btn spinner-up" type="button"><i class="icon-chevron-up"></i></button>
-                                    <!--<span class="add-on" id="slider-container" rel="tooltip" title="Slide to adjust tax rate">
-                                        <span id="slider"></span>
-                                    </span>-->
                                 </div>
                             </li>
                             <li class="nav-header"><%= D("estimated_2014_tax") %></li>
                             <li>
-                                <div class="above"><button class="btn btn-large disabled"><%= D("estimate_button") %></button></div>
+                                <div class="above"><button class="btn btn-large"><%= D("estimate_button") %></button></div>
                                 <div class="beneath"><span id="tax"></span></div>
                             </li>
                         </ul>
@@ -249,7 +246,6 @@
                 </div>
             </div>
         </div>
-        <p><%= D("disclaimer_rates")%></p>
         <p><%= D("disclaimer_learn") %></p>
         <p><%= D("disclaimer_appeal") %></p>
         <p>* <%= D("disclaimer_sale_price") %></p>

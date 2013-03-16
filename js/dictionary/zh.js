@@ -32,7 +32,7 @@ window.dictionary = window.dictionary || {};
         
         // Estimation Fields
         ,estimate_2014_tax: "估算 2014 年稅費"
-        ,tax_desc: "在無任何減免措施的情況下，若要在下一年得到與今年估算相同的收入金額，需要 1.25% 的最低稅率。憑藉 30,000 美元宅地豁免計劃，最低只需 1.34%。"
+        ,tax_desc: "在無任何減免措施的情況下，若要在下一年得到與今年估算相同的收入金額，需要 1.25% 的最低稅率。憑藉 15,000 美元宅地豁免計劃，最低只需 1.3204%。"
         ,homestead_exemption: "宅地豁免"
         ,no_homestead: "無宅地"
         ,taxable_market_value: "應課稅市值"

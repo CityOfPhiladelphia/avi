@@ -32,7 +32,7 @@ window.dictionary = window.dictionary || {};
         // Estimation Fields
         ,tax_2013: "Impuesto 2013"
         ,estimate_2014_tax: "Estimación de impuesto 2014"
-        ,tax_desc: "Para generar el mismo monto de ingresos el próximo año que lo estimado para este año, es necesaria una tasa impositiva mínima de 1,25 % sin ninguna medida de desgravación. Con un programa de exención impositiva para viviendas familiares de 30.000 dólares, es necesaria una tasa mínima del 1,34 %."
+        ,tax_desc: "Para generar el mismo monto de ingresos el próximo año que lo estimado para este año, es necesaria una tasa impositiva mínima de 1,25 % sin ninguna medida de desgravación. Con un programa de exención impositiva para viviendas familiares de 15.000 dólares, es necesaria una tasa mínima del 1,3204 %."
         ,homestead_exemption: "Exención impositiva para viviendas familiares"
         ,no_homestead: "Ninguna vivienda familiar"
         ,taxable_market_value: "Valor de mercado sujeto a impuestos"

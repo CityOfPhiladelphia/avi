@@ -32,7 +32,7 @@ window.dictionary = window.dictionary || {};
         
         // Estimation Fields
         ,estimate_2014_tax: "Estimate 2014 Tax"
-        ,tax_desc: "In order to generate the same amount of revenue next year as is estimated for this year, a minimum tax rate of 1.25% is needed without any relief measures. With a $30,000 homestead exemption program, a minimum of 1.34% is needed."
+        ,tax_desc: "In order to generate the same amount of revenue next year as is estimated for this year, the Mayor has introduced a tax rate of 1.3204% with a $15,000 homestead exemption, along with $30 million worth of other targeted relief measures.  The combination is designed to keep to a low tax rate, while providing relief to taxpayers that could see big increases."
         ,homestead_exemption: "Homestead Exemption"
         ,no_homestead: "No Homestead"
         ,taxable_market_value: "Taxable Market Value"
