@@ -262,18 +262,18 @@ window.Backbone = window.Backbone || {};
     app.Views.PropertyView = Backbone.View.extend({
         className: "property"
         ,initialize: function() {
-            _.bindAll(this, "estimate", "onChangeRate", "incrementDecrement");
+            _.bindAll(this, "estimate");
             this.template = _.template($("#tmpl-property").html());
         }
         ,events: {
             "click .above button": "showBeneath"
-            ,"change #rate": "onChangeRate"
+            //,"change #rate": "onChangeRate"
             ,"change #homestead": "estimate"
-            ,"change #rate-container": "onChangeRate"
+            //,"change #rate-container": "onChangeRate"
         }
         ,render: function() {
             this.$el.html(this.template({property: this.model.toJSON()}));
-            this.activateSpinner();
+            //this.activateSpinner();
             this.estimate();
             this.title = this.model.get("address");
             return this;
@@ -297,7 +297,7 @@ window.Backbone = window.Backbone || {};
             rateNode.val(sliderNode.slider("value") / 100);
             
         }*/
-        ,activateSpinner: function() {
+        /*,activateSpinner: function() {
             this.$("#rate-container").spinner({min: 0, max: 9999, value: 1.34, step: 0.01});
         }
         ,incrementDecrement: function(e) {
@@ -322,7 +322,7 @@ window.Backbone = window.Backbone || {};
                 if(button.hasClass("disabled")) button.removeClass("disabled");
                 this.estimate();
             }
-        }
+        }*/
         /*,activateTooltip: function() {
             this.$("[rel=\"tooltip\"]").tooltip();
         }*/
@@ -330,7 +330,8 @@ window.Backbone = window.Backbone || {};
             var marketValue = this.model.get("value2014market")
                 ,exemptValue = this.model.get("value2014exempt")
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
-                ,rate = parseFloat(this.$("#rate").val())
+                //,rate = parseFloat(this.$("#rate").val())
+                ,rate = 1.34
                 ,taxableValue = marketValue - exemptValue - homestead
                 ,tax = Math.max(0, taxableValue * (rate / 100));
             
