@@ -134,7 +134,7 @@ window.jQuery = window.jQuery || {};
 		value: function (value) {
 			if (typeof value !== 'undefined') {
 				this.options.value = value;
-				this.$input.val(value.toFixed(4));
+				this.$input.val(value.toFixed(2));
 				return this;
 			} else {
 				return this.options.value;
