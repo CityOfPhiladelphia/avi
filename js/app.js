@@ -28,173 +28,78 @@ window.Backbone = window.Backbone || {};
         return Backbone.$.ajax.apply(Backbone.$, arguments);
     };
     
-    /**
-     * Property Model
-     * Calculates 2013 tax
-     */
     app.Models.Property = Backbone.Model.extend({
-        initialize: function() {
-            var value2013market = this.get("value2013market")
-                ,extcondition = this.get("extcondition")
-                ,extconditionLabel;
-            if(value2013market) {
-                this.set("tax2013", Math.max(0, (value2013market - this.get("value2013exempt") || 0) * 0.32 * 0.09771));
-            }
-            // Lookup ext condition value. Small enough table that we can store the values here
-            if(extcondition !== undefined) {
-                switch(extcondition) {
-                    case "0": extconditionLabel = window.D("cond_0"); break;
-                    case "1": extconditionLabel = window.D("cond_1"); break;
-                    case "2": extconditionLabel = window.D("cond_2"); break;
-                    case "3": extconditionLabel = window.D("cond_3"); break;
-                    case "4": extconditionLabel = window.D("cond_4"); break;
-                    case "5": extconditionLabel = window.D("cond_5"); break;
-                    case "6": extconditionLabel = window.D("cond_6"); break;
-                    case "7": extconditionLabel = window.D("cond_7"); break;
-                    default: extconditionLabel = ""; break;
-                }
-                this.set("extcondition", extconditionLabel);
-            }
+        settings: {
+            apiHost: "http://services.phila.gov/OPA/v1.0/"
         }
-    });
-    
-    /**
-     * Properties Collection (ArcGIS)
-     * Lookup properties in db by OPA Account Number
-     */
-    app.Collections.Properties = Backbone.Collection.extend({
-        model: app.Models.Property
-        ,settings: {
-            apiHost: "http://gis.phila.gov/ArcGIS/rest/services/OPA/AVI_2013_2014_ADDL/MapServer/0/query"
-            ,params: {
-                text: ""
-                ,geometry: ""
-                ,geometryType: "esriGeometryPoint"
-                ,spatialRel: "esriSpatialRelIntersects"
-                ,relationParam: ""
-                ,objectIds: ""
-                ,where: ""
-                ,time: ""
-                ,returnCountOnly: "false" // Should be string since it's for the URL
-                ,returnIdsOnly: "false"
-                ,returnGeometry: "false"
-                ,maxAllowableOffset: ""
-                ,outSR: "" // Would be 4326 if we wanted geometry
-                ,outFields: "*"
-                ,f: "pjson"
-            }
-            ,fields: {
-                actnum: "ACCT_NUM"
-                ,address: "ADDRESS"
-                ,unit: "UNIT"
-                ,homestead: "HOMESTD_EX"
-                ,category: "PROP_CAT"
-                ,type: "PROP_TYPE"
-                ,stories: "NUM_STOR"
-                ,value2013market: "MKTVAL_13"
-                ,value2013land: "LANDVAL_13"
-                ,value2013imp: "IMPVAL_13"
-                ,value2013exempt: "ABAT_EX_13"
-                ,value2014market: "MKTVAL_14"
-                ,value2014land: "LANDVAL_14"
-                ,value2014imp: "IMPVAL_14"
-                ,value2014exempt: "ABAT_EX_14"
-                // Property lookup fields
-                ,owner1: "OWNR_NAM"
-                ,owner2: "SECD_NAME"
-                ,zip: "PLOC_ZIP5"
-                ,landarea: "PLOTAREA"
-                ,imparea: "TOTDWELLAREA"
-                ,beginpoint: "DIST_FROM"
-                ,extcondition: "EXTCOND"
-                ,zoning: "ZONE_"
-                ,saledate: "TITL_DATE"
-                ,saleprice: "SALE_PRICE"
-            }
+        ,initialize: function(options) {
+            this.input = options.input || "";
         }
-        ,initialize: function(models, options) {
-            this.actnum = options.actnum || null;
-            this.offset = 0;
-            this.limit = 30;
-            this.moreAvailable = false;
-        }
-        /**
-         * Generate URL
-         * If actnum is an array, use BRT_ID IN ('xxx','xxx','xxx') and only get basic fields; otherwise use BRT_ID = 'xxx' and get all fields
-         */
         ,url: function() {
-            var data = _.clone(this.settings.params);
-            if(typeof this.actnum === "object" && this.actnum.length) {
-                var searchList = this.actnum.slice(this.offset, this.offset + this.limit);
-                this.moreAvailable = this.actnum.length > this.offset + this.limit ? true : false;
-                
-                data.where = this.settings.fields.actnum + " IN ('" + searchList.join("','") + "')";
-                data.outFields = [this.settings.fields.actnum, this.settings.fields.address, this.settings.fields.unit].join(",");
+            return this.settings.apiHost + "account/" + this.input + "?format=json";
+        }
+        ,parse: function(response, options) {
+            var property = response.data.property;
+            
+            // If proposed valuation has data, use that as the "new value"; otherwise, use valuation history for values
+            if( ! _.isEmpty(property.proposed_valuation)) {
+                property.new_value = property.proposed_valuation;
+                property.previous_value = property.valuation_history[0];
+                property.new_value.certification_year = parseInt(property.previous_value.certification_year, 0) + 1; // proposed_valuation has no year field, so we increment from previous_value's
             } else {
-                data.where = this.settings.fields.actnum + " = '" + this.actnum + "'";
+                property.new_value = property.valuation_history[0];
+                property.previous_value = property.valuation_history[1];
             }
-            return this.settings.apiHost + "?" + $.param(data);
+            
+            // If previous value year is < 2014 (prior to AVI), divide the values by 32% to get taxable market value
+            if(parseInt(property.previous_value.certification_year, 0) < 2014) {
+                property.previous_value.land_taxable /= .32;
+                property.previous_value.land_exempt /= .32;
+                property.previous_value.improvement_taxable /= .32;
+                property.previous_value.improvement_exempt /= .32;
+            }
+            
+            // Parse timestamp from API
+            property.sales_information.sales_date = parseInt(property.sales_information.sales_date.replace(/[^-\d]/g, ""), 0);
+            
+            return property;
         }
-        /**
-        * Override sync to test if response has an error because the API always returns status 200 with jsonp
-        */
-        ,sync: function(method, collection, options) {
-            var oldOptions = _.clone(options);
-            options.success = function(collection, response, options) {
-                if(response.error !== undefined) {
-                    oldOptions.error(collection, {status: response.error.code, responseText: response.error.message}, options);
-                } else if(response.features === undefined || ! response.features.length) {
-                    oldOptions.error(collection, {status: 404}, options);
-                } else {
-                    oldOptions.success(collection, response, options);
-                }
-            };
-            Backbone.sync(method, collection, options);
-        }
-        /**
-         * Return attributes property and change keys to our own
-         * Changing the keys isn't necessary but we're already looping and this helps the app remain somewhat API agnostic
-         */
-        ,parse: function(response) {
-            var self = this
-                ,newRows = [];
-            _.each(response.features, function(feature) {
-                var newRow = {};
-                _.each(self.settings.fields, function(val, key) {
-                    newRow[key] = feature.attributes[val] !== undefined ? feature.attributes[val] : null;
-                });
-                newRows.push(newRow);
-            });
-            return newRows;
-        }
-    });
+        //,sync: function(method, collection, options) {
+	});
     
-    /**
-     * Account Numbers Collection
-     * Lookup OPA Account Number by Address in ulrs311 web service
-     */
-    app.Collections.AccountNumbers = Backbone.Collection.extend({
-        url: function() { return "http://services.phila.gov/ulrs311/data/opakey/" + this.input || ""; }
-        ,input: null
+    app.Collections.SearchResults = Backbone.Collection.extend({
+        settings: {
+            apiHost: "http://services.phila.gov/OPA/v1.0/"
+            ,skip: 0
+            ,limit: 30
+        }
         ,initialize: function(models, options) {
-            this.input = options.input || null;
+            this.method = options.method || "";
+            this.input = options.input || "";
+            this.skip = this.settings.skip;
+            this.limit = this.settings.limit;
+        }
+        ,url: function() {
+            return this.settings.apiHost + this.method + "/" + this.input + "/?format=json&limit=" + this.limit + "&skip=" + this.skip;
+        }
+        ,parse: function(response, options) {
+            this.moreAvailable = response.total > this.length + response.data.properties.length;
+            return response.data.properties;
         }
         /**
         * Override sync to return 404 if no records
         */
         ,sync: function(method, collection, options) {
-            var oldOptions = _.clone(options);
-            options.success = function(collection, response, options) {
-                if(response.TopicKeys === undefined || ! response.TopicKeys.length) {
-                    oldOptions.error(collection, {status: 404}, options);
+            var collection = this
+                ,oldOptions = _.clone(options);
+            options.success = function(response, status, options) {
+                if(response.status === "error" || response.data.properties === undefined || ! response.data.properties.length) {
+                    oldOptions.error({status: 404});
                 } else {
-                    oldOptions.success(collection, response, options);
+                    oldOptions.success(response, options);
                 }
             };
             Backbone.sync(method, collection, options);
-        }
-        ,parse: function(response, options) {
-            return response.TopicKeys;
         }
     });
     
@@ -262,7 +167,7 @@ window.Backbone = window.Backbone || {};
     app.Views.PropertyView = Backbone.View.extend({
         className: "property"
         ,initialize: function() {
-            _.bindAll(this, "estimate");
+            _.bindAll(this, "estimate"/*, "onChangeRate"*/);
             this.template = _.template($("#tmpl-property").html());
         }
         ,events: {
@@ -275,44 +180,11 @@ window.Backbone = window.Backbone || {};
             this.$el.html(this.template({property: this.model.toJSON()}));
             //this.activateSpinner();
             this.estimate();
-            this.title = this.model.get("address");
+            this.title = this.model.get("full_address");
             return this;
         }
-        /*,activateSlider: function() {
-            var sliderNode = this.$("#slider")
-                ,rateNode = this.$("#rate")
-                ,self = this;
-            sliderNode.slider({
-                orientation: "horizontal",
-                range: "min",
-                min: 0,
-                max: 250,
-                value: 0,
-                slide: function (event, ui) {
-                    rateNode.val(ui.value / 100);
-                    self.estimate();
-                    self.$(".above button").removeClass("disabled");
-                }
-            });
-            rateNode.val(sliderNode.slider("value") / 100);
-            
-        }*/
         /*,activateSpinner: function() {
-            this.$("#rate-container").spinner({min: 0, max: 9999, value: 1.34, step: 0.01});
-        }
-        ,incrementDecrement: function(e) {
-            //e.preventDefault();
-            var rateNode = this.$("#rate")
-                ,rate = parseFloat(rateNode.val()) || 0
-                ,buttonNode = $(e.currentTarget)
-                ,step = buttonNode.data("step")
-                ,delta = buttonNode.hasClass("decrement") ? step * -1 : step
-                ,button = this.$(".above button");
-            rateNode.val(Math.max(0, rate + delta).toFixed(2));
-            
-            if(button.hasClass("disabled")) button.removeClass("disabled");
-            
-            this.estimate();
+            this.$("#rate-container").spinner({min: 0, max: 999999, value: 1.3204, step: 0.0001});
         }
         ,onChangeRate: function(e) {
             var newRate = parseFloat(this.$("#rate").val())
@@ -323,23 +195,20 @@ window.Backbone = window.Backbone || {};
                 this.estimate();
             }
         }*/
-        /*,activateTooltip: function() {
-            this.$("[rel=\"tooltip\"]").tooltip();
-        }*/
         ,estimate: function() {
-            var marketValue = this.model.get("value2014market")
-                ,exemptValue = this.model.get("value2014exempt")
+            var marketValue = this.model.get("new_value").market_value
+                ,exemptValue = this.model.get("new_value").land_exempt + this.model.get("new_value").improvement_exempt
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
                 //,rate = parseFloat(this.$("#rate").val())
                 ,rate = 1.34
-                ,taxableValue = marketValue - exemptValue - homestead
+                ,taxableValue = Math.max(0, marketValue - exemptValue - homestead)
                 ,tax = Math.max(0, taxableValue * (rate / 100));
             
             // Show taxable market value
             this.$("#taxable-value").text("$" + util.formatNumber(taxableValue));
                 
             // Show new tax
-            this.$("#tax").text("$" + util.formatNumber(tax, 2));
+            this.$("#tax").text("$" + util.formatNumber(tax, true));
         }
         ,showBeneath: function(e) {
             e.preventDefault();
@@ -352,14 +221,14 @@ window.Backbone = window.Backbone || {};
     });
     
     /**
-     * Properties View
+     * Search Results View
      * When multiple properties are found for the user's input, this renders a list
      */
-    app.Views.PropertiesView = Backbone.View.extend({
-        className: "properties"
+    app.Views.SearchResultsView = Backbone.View.extend({
+        className: "search-results"
         ,initialize: function() {
             _.bindAll(this, "onClickMore");
-            this.template = _.template($("#tmpl-properties").html());
+            this.template = _.template($("#tmpl-search-results").html());
             this.collection.on("add", this.addRow, this);
             this.title = window.D("multiple_properties_found");
         }
@@ -368,26 +237,26 @@ window.Backbone = window.Backbone || {};
         }
         ,render: function() {
             var list;
-            this.$el.html(this.template({properties: this.collection.toJSON()}));
+            this.$el.html(this.template({searchResults: this.collection.toJSON()}));
             list = this.$("#list");
             this.collection.each(function(model) {
                 // TODO: Ideally I'd only call append() once to limit DOM insertions, but how do I append an array of el's?
-                list.append((new app.Views.PropertiesRowView({model: model})).render().el);
+                list.append((new app.Views.SearchResultsRowView({model: model})).render().el);
             });
             this.checkMoreButton();
             return this;
         }
         ,addRow: function(model) {
-            this.$("#list").append((new app.Views.PropertiesRowView({model: model})).render().el);
+            this.$("#list").append((new app.Views.SearchResultsRowView({model: model})).render().el);
             this.checkMoreButton();
         }
         ,onClickMore: function(e) {
             e.preventDefault();
             var button = $(e.currentTarget);
             button.button("loading");
-            this.collection.offset = this.collection.offset + this.collection.limit;
+            this.collection.skip = this.collection.skip + this.collection.limit;
             this.collection.fetch({
-                update: true // Not sure why properties collection is being *replaced* with these, but it doesn't really matter
+                remove: false // Add new models to collection instead of replacing
                 ,success: function() {
                     button.button("reset");
                 }
@@ -402,17 +271,17 @@ window.Backbone = window.Backbone || {};
     });
     
     /**
-     * Property Row View
+     * Search Results Row View
      * The individual row in the list of multiple properties found in a search result
      * Separated in order to add the 'more' button with 'add' events
      */
-    app.Views.PropertiesRowView = Backbone.View.extend({
+    app.Views.SearchResultsRowView = Backbone.View.extend({
         tagName: "li"
         ,initialize: function() {
-            this.template = _.template($("#tmpl-properties-row").html());
+            this.template = _.template($("#tmpl-search-results-row").html()); // This should be done at page load not on initialize
         }
         ,render: function() {
-            this.$el.html(this.template({property: this.model.toJSON()}));
+            this.$el.html(this.template({searchResultsRow: this.model.toJSON()}));
             return this;
         }
     })
@@ -447,7 +316,7 @@ window.Backbone = window.Backbone || {};
     app.Routers.AppRouter = Backbone.Router.extend({
         routes: {
             "": "home"
-            ,"view/:actnum": "view"
+            ,"view/:input": "view"
             ,"search/:input": "search"
             ,"*path": "home"
         }
@@ -484,22 +353,23 @@ window.Backbone = window.Backbone || {};
          * View a specific property by OPA Account Number
          * Called when a user enters an Account # or when the address they enter finds one account # from ulrs311
          */
-        ,view: function(actnum) {
+        ,view: function(input) {
             var self = this;
-            actnum = decodeURIComponent(actnum);
-            app.properties = new app.Collections.Properties(null, {actnum: actnum});
+            input = decodeURIComponent(input);
+            //app.properties = new app.Collections.Properties(null, {actnum: actnum});
+            app.property = new app.Models.Property({input: input});
             util.loading(true);
-            app.properties.fetch({
-                success: function(collection, response, options) {
+            app.property.fetch({
+                success: function(model, response, options) {
                     util.loading(false);
-                    app.propertyView = new app.Views.PropertyView({model: collection.at(0)});
+                    app.propertyView = new app.Views.PropertyView({model: model});
                     self.showView(app.propertyView);
                 }
-                ,error: function(collection, xhr, options) {
+                ,error: function(model, xhr, options) {
                     util.loading(false);
-                    self.error(collection, xhr, options
+                    self.error(model, xhr, options
                         ,window.D("error_database")
-                        ,{field: "actnum", input: actnum, noresults: true}
+                        ,{field: "actnum", input: input, noresults: true}
                     );
                 }
             });
@@ -511,16 +381,19 @@ window.Backbone = window.Backbone || {};
         ,search: function(input) {
             var self = this;
             input = decodeURIComponent(input);
-            app.accountNumbers = new app.Collections.AccountNumbers(null, {input: input});
+            app.searchResults = new app.Collections.SearchResults(null, {input: input, method: "address"});
             util.loading(true);
-            app.accountNumbers.fetch({
+            app.searchResults.fetch({
                 success: function(collection, response, options) {
+                    util.loading(false);
                     if(collection.length === 1) {
                         // If we found 1 account number, view it
-                        self.navigate("view/" + collection.at(0).get("TopicID"), {trigger: true, replace: true});
+                        self.navigate("view/" + collection.at(0).get("account_number"), {trigger: true, replace: true});
                     } else {
                         // If we found multiple account numbers, get the addresses of each
-                        self.multiple(collection.pluck("TopicID"));
+                        //self.multiple(collection.pluck("TopicID"));
+                        app.searchResultsView = new app.Views.SearchResultsView({collection: collection});
+                        self.showView(app.searchResultsView);
                     }
                 }
                 ,error: function(collection, xhr, options) {
@@ -533,35 +406,12 @@ window.Backbone = window.Backbone || {};
             });
         }
         /**
-         * Address search produced multiple account numbers, so fetch their addresses and show the user a list
-         * Takes an array of account number strings. Called internally, not by a route.
-         */
-        ,multiple: function(accountNumbers) {
-            var self = this;
-            app.properties = new app.Collections.Properties(null, {actnum: accountNumbers});
-            util.loading(true);
-            app.properties.fetch({
-                success: function(collection, response, options) {
-                    util.loading(false);
-                    // We'll assume we never get a length of 1 from ArcGIS if ulrs311 gives us multiple account numbers
-                    app.propertiesView = new app.Views.PropertiesView({collection: collection});
-                    self.showView(app.propertiesView);
-                }
-                ,error: function(collection, xhr, options) {
-                    util.loading(false);
-                    self.error(collection, xhr, options
-                        ,window.D("error_database")
-                    );
-                }
-            });
-        }
-        /**
          * Common error handling. Optionally brings user back to search/home page on a 404 if home404data is provided
          * TODO: Add Google Analytics/Muscula error logging here
          */
         ,error: function(collection, xhr, options, message, home404data) {
             var url = typeof collection.url === "function" ? collection.url() : collection.url;
-            this.logError(xhr.status || "N/A", url);
+            this.logError(typeof xhr === "object" && xhr.status !== undefined ? xhr.status : "N/A", url);
             if(typeof home404data === "object" && typeof xhr === "object" && xhr.status >= 400 && xhr.status < 500) {
                 app.homeView = new app.Views.HomeView(home404data);
                 this.showView(app.homeView);

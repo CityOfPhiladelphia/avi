@@ -19,7 +19,7 @@ window.dictionary = window.dictionary || {};
      */
     util.formatNumber = function(x, decimals) {
         if(isNaN(x) || x === null) return x;
-        if(decimals !== undefined) x = x.toFixed(decimals);
+        if(decimals !== undefined) x = decimals ? Math.round(x * 100) / 100 : Math.round(x);
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
     
@@ -38,6 +38,11 @@ window.dictionary = window.dictionary || {};
             }
         }
         return output;
+    };
+    
+    util.friendlyDate = function(timestamp) {
+        var date = new Date(timestamp);
+        return (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
     }
     
 })(window, window.jQuery, window._, window.AVI, window.util, window.dictionary);

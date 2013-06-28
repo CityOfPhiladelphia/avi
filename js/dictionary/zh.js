@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "宅地"
         ,land_area: "土地面積"
         ,improvement_area: "改良物面積"
-        ,beginning_Point: "起始點"
+        ,beginning_point: "起始點"
         ,ext_condition: "屋外狀況"
         ,zoning: "分區"
         

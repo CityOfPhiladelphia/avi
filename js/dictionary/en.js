@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "Homestead"
         ,land_area: "Land Area"
         ,improvement_area: "Improvement Area"
-        ,beginning_Point: "Beginning Point"
+        ,beginning_point: "Beginning Point"
         ,ext_condition: "Exterior Condition"
         ,zoning: "Zoning"
         

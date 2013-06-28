@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "홈스테드"
         ,land_area: "토지 면적"
         ,improvement_area: "개선물 면적"
-        ,beginning_Point: "시작 지점"
+        ,beginning_point: "시작 지점"
         ,ext_condition: "외부 상태"
         ,zoning: "영역"
         

@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "Жилье с прилегающим участком"
         ,land_area: "Земельная площадь"
         ,improvement_area: "Благоустроенная территория"
-        ,beginning_Point: "Исходная точка"
+        ,beginning_point: "Исходная точка"
         ,ext_condition: "Состояние экстерьера"
         ,zoning: "Зонирование"
         

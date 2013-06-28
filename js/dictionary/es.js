@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "Vivienda familiar"
         ,land_area: "Área de terreno"
         ,improvement_area: "Área de mejora"
-        ,beginning_Point: "Punto inicial"
+        ,beginning_point: "Punto inicial"
         ,ext_condition: "Condición exterior"
         ,zoning: "Zonificación"
         

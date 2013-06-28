@@ -49,7 +49,7 @@ window.dictionary = window.dictionary || {};
         ,homestead: "Nhà Cửa"
         ,land_area: "Diện tích đất"
         ,improvement_area: "Khu Vực Cải Thiện"
-        ,beginning_Point: "Điểm Khởi Đầu"
+        ,beginning_point: "Điểm Khởi Đầu"
         ,ext_condition: "Điều Kiện Ngoại Thất"
         ,zoning: "Phân khu"
         
