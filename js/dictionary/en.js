@@ -58,6 +58,7 @@ window.dictionary = window.dictionary || {};
         ,disclaimer_learn: "To learn more about AVI, please go to <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
         ,disclaimer_appeal: "If you think your new value does not reflect what it could sell for in the market, you may file an informal review with the OPA and/or appeal to the BRT."
         ,disclaimer_sale_price: "The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value."
+        ,disclaimer_homestead: "Call 215-686-9200 to apply or check the status of your homestead application."
         
         // Errors
         ,error: "Error"

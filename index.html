@@ -213,7 +213,7 @@
                             <li class="nav-header"><%= D("sale_price") %>*</li>
                             <li>$<%= util.formatNumber(data.property.sales_information.sales_price || 0) %></li>
                             <li class="nav-header"><%= D("homestead") %></li>
-                            <li><%= data.property.characteristics.homestead ? "Yes" : "No" %></li>
+                            <li><%= data.property.characteristics.homestead ? "Yes" : "No**" %></li>
                         </ul>
                     </div>
                     <div class="span5">
@@ -236,6 +236,9 @@
         <p><%= D("disclaimer_learn") %></p>
         <p><%= D("disclaimer_appeal") %></p>
         <p>* <%= D("disclaimer_sale_price") %></p>
+        <% if( ! data.property.characteristics.homestead) { %>
+        <p>** <%= D("disclaimer_homestead") %></p>
+        <% } %>
         
         <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
         

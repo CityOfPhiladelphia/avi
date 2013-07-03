@@ -58,6 +58,7 @@ window.dictionary = window.dictionary || {};
         ,disclaimer_learn: "AVI에 관한 자세한 정보가 필요하신 경우, <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>를 방문하십시오."
         ,disclaimer_appeal: "새로운 가치가 시장에서 매매될 수 있는 가치를 반영하지 않는다고 생각하는 경우, OPA에 비공식 검토를 제출하고/하거나 BRT에 항소할 수 있습니다."
         ,disclaimer_sale_price: "표시된 매매가가 여러 부동산의 매매를 포함할 수 있으며, 반드시 현재 시장 가치의 유일한 지표가 아닙니다."
+        ,disclaimer_homestead: "적용하거나 응용 프로그램의 상태를 확인하기 위해 215-686-9200를 호출합니다."
         
         // Errors
         ,error: "오류"
