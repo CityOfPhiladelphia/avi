@@ -56,7 +56,7 @@ window.dictionary = window.dictionary || {};
         // Disclaimers
         ,disclaimer_rates: "Estas tasas impositivas deben utilizarse solo para fines estimativos y no son las tasas propuestas o finales."
         ,disclaimer_learn: "Para conocer más acerca de AVI, visite <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
-        ,disclaimer_appeal: "Si usted cree que el nuevo valor no refleja el posible valor de venta en el mercado, puede presentar una revisión informal ante la Oficina de Valuación de Propiedades (Office of Property Assessment, OPA) y/o apelar ante el Consejo de Revisión de Impuestos (Board of Revision of Taxes, BRT)."
+        ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "El precio de venta presentado puede reflejar la venta de varias propiedades y no es necesariamente el único indicador del valor actual de mercado."
         ,disclaimer_homestead: "Llame al 215-686-9200 para solicitar o para comprobar el estado de su solicitud."
         

@@ -56,7 +56,7 @@ window.dictionary = window.dictionary || {};
         // Disclaimers
         ,disclaimer_rates: "該等稅率僅用於估算目的，且並非擬定或最終稅率。"
         ,disclaimer_learn: "欲知 AVI 詳情，請前往 <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
-        ,disclaimer_appeal: "如果您認為您的新價值並未反映出其在市場中的賣價，您可向 OPA 提出非正式審核及／或向 BRT 上訴。"
+        ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "所顯示的銷售價格可反映多個物業的銷售，且不一定為當前市值的唯一指標。"
         ,disclaimer_homestead: "致電215-686-9200申請或檢查你的應用程序的狀態。"
         

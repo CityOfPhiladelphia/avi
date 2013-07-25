@@ -56,7 +56,7 @@ window.dictionary = window.dictionary || {};
         // Disclaimers
         ,disclaimer_rates: "These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates."
         ,disclaimer_learn: "To learn more about AVI, please go to <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
-        ,disclaimer_appeal: "The deadline to file a First Level Review (FLR) for the current tax year has passed.  If you think your new assessed value does not reflect what it could sell for in the market, you may file an appeal to the BRT on or before October 7, 2013."
+        ,disclaimer_appeal: "The deadline to file a First Level Review for tax year 2014 has passed.  If you think your new assessed value does not reflect what it could sell for in the market, you may file an appeal to the BRT on or before October 7, 2013."
         ,disclaimer_sale_price: "The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value."
         ,disclaimer_homestead: "Call 215-686-9200 to apply or check the status of your homestead application."
         

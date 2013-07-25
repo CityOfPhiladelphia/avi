@@ -56,7 +56,7 @@ window.dictionary = window.dictionary || {};
         // Disclaimers
         ,disclaimer_rates: "Các thuế suất này được sử dụng chỉ cho các mục đích ước tính và không phải là các thuế suất được đề xuất hoặc cuối cùng."
         ,disclaimer_learn: "Để tìm hiểu thêm về AVI, vui lòng ghé thăm <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
-        ,disclaimer_appeal: "Nếu cho rằng giá trị mới của quý vị không phản ánh giá trị có thể bán trên thị trường, quý vị có thể nộp đơn xin xem xét không chính thức với OPA và/hoặc kháng cáo tới BRT."
+        ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "Giá bán được hiển thị có thể phản ánh việc bán nhiều bất động sản, và không nhất thiết là chỉ số duy nhất của giá trị thị trường hiện tại."
         ,disclaimer_homestead: "Gọi 215-686-9200 để áp dụng hoặc để kiểm tra tình trạng hồ sơ của bạn."
         
