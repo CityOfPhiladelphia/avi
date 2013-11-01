@@ -202,8 +202,8 @@
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("owners") %></li>
                             <li>
-                                <% _.each(data.property.ownership, function(owner) { %>
-                                    <%= owner.name %><br>
+                                <% _.each(data.property.ownership.owners, function(owner) { %>
+                                    <%= owner %><br>
                                 <% }); %>
                             </li>
                             <li class="nav-header"><%= D("zip") %></li>
