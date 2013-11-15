@@ -213,7 +213,7 @@
                             <li class="nav-header"><%= D("sale_price") %>*</li>
                             <li>$<%= util.formatNumber(data.property.sales_information.sales_price || 0) %></li>
                             <li class="nav-header"><%= D("homestead") %></li>
-                            <li><%= data.property.characteristics.homestead ? "Yes" : "No**" %></li>
+                            <li>$<%= data.property.characteristics.homestead ? util.formatNumber(data.property.characteristics.homestead) : "0**" %></li>
                         </ul>
                     </div>
                     <div class="span5">
