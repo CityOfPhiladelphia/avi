@@ -30,7 +30,7 @@ window.Backbone = window.Backbone || {};
     
     app.Models.Property = Backbone.Model.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa/v1.0/"
+            apiHost: "http://api.phila.gov/opa/v1.1/"
         }
         ,initialize: function(options) {
             this.input = options.input || "";
@@ -69,7 +69,7 @@ window.Backbone = window.Backbone || {};
     
     app.Collections.SearchResults = Backbone.Collection.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa/v1.0/"
+            apiHost: "http://api.phila.gov/opa/v1.1/"
             ,skip: 0
             ,limit: 30
         }
