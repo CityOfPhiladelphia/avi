@@ -6,13 +6,13 @@ window.dictionary = window.dictionary || {};
         ,app_desc1: "이 애플리케이션을 사용하여 실제 시장가격에 근거한 세금 제도(AVI)에 따른 부동산세를 추산할 수 있습니다."
         ,app_desc2: "실제 시장가격에 근거한 세금 제도, 즉 AVI는 시의 모든 부동산 가치가 공정하고 정확하도록 보장하기 위해 이를 재평가하는 프로그램입니다. 이는 세금 고지서를 계산할 때 분수를 삭제함으로써 조세 제도를 보다 이해하기 쉽게 만들어 줍니다."
         ,multiple_properties_found: "여러 부동산이 발견되었습니다"
-        
+
         // Forms
         ,address: "주소"
         ,address_example: "예: 908 N 3rd St"
         ,account: "계정 #"
         ,account_example: "예: 883525510"
-        
+
         // Buttons
         ,search_button: "검색"
         ,select_option: "선택하십시오"
@@ -20,7 +20,7 @@ window.dictionary = window.dictionary || {};
         ,new_search_button: "새로운 검색"
         ,more_button: "추가"
         ,try_again_button: "다시 시도"
-        
+
         // Value Fields
         ,previous_value: "이전 가치"
         ,new_value: "새로운 가치"
@@ -29,7 +29,7 @@ window.dictionary = window.dictionary || {};
         ,improvement_value: "개선물 가치"
         ,exempt_value: "감세/면제 가치"
         ,tax_2013: "2013년 세금"
-        
+
         // Estimation Fields
         ,estimate_2014_tax: "2014년 세금 추산"
         ,tax_desc: "내년에 올해의 추산 세입과 동일한 규모의 세입을 창출하려면, 일체의 경감 조치가 없는 경우 최소 1.25%의 세율이 필요합니다. 15,000달러 홈스테드 면제 프로그램을 실시하는 경우, 최소 1.3204%가 필요합니다."
@@ -38,7 +38,7 @@ window.dictionary = window.dictionary || {};
         ,taxable_market_value: "과세 대상 시장 가치"
         ,tax_rate: "세율"
         ,estimated_2014_tax: "2014년 세금 추산치"
-        
+
         // Property Info
         ,unit: "유닛"
         ,property_info: "부동산 정보"
@@ -52,14 +52,17 @@ window.dictionary = window.dictionary || {};
         ,beginning_point: "시작 지점"
         ,ext_condition: "외부 상태"
         ,zoning: "영역"
-        
+        ,yes: "예"
+        ,no: "아니"
+
         // Disclaimers
         ,disclaimer_rates: "이 세율은 추산을 위해서만 사용하는 세율로, 제안된 또는 최종 세율이 아닙니다."
         ,disclaimer_learn: "AVI에 관한 자세한 정보가 필요하신 경우, <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>를 방문하십시오."
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "표시된 매매가가 여러 부동산의 매매를 포함할 수 있으며, 반드시 현재 시장 가치의 유일한 지표가 아닙니다."
-        ,disclaimer_homestead: "적용하거나 응용 프로그램의 상태를 확인하기 위해 215-686-9200를 호출합니다."
-        
+        ,disclaimer_homestead_yes: "당신이 농가 면제 승인을받은 경우, 양이 '감면 / 면제 값' 에서 찾을 수 있습니다. 이미 감소 가 있거나오랜 소유자 거주자 프로그램 (LOOP) 에 등록 하는 경우에는 농가 면제 를 가질 자격이 없습니다."
+        ,disclaimer_homestead_no: "당신이 소유하고 주 거주지로 귀하의 재산 을 점유 하는 경우는 농가 면제 를 신청할 수 있습니다. <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>온라인</a> 를 적용하거나 전화로 신청 할 215-686-9200 를 호출합니다. 이미 감소 가 있거나오랜 소유자 거주자 프로그램 ( LOOP ) 에 등록 하는 경우 도 농가 면제 를 가질 자격이 없습니다."
+
         // Errors
         ,error: "오류"
         ,error_being_updated: "이 부동산의 데이터가 업데이트되고 있습니다. 나중에 다시 확인해 주십시오."
@@ -70,7 +73,7 @@ window.dictionary = window.dictionary || {};
         ,error_verifying: "주소를 확인하는 동안 오류가 발생했습니다. 다시 시도해 보십시오."
         ,error_generic: "오류가 발생했습니다. 다시 시도해 보십시오."
         ,error_addendum: "또한 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>에서 검색해 볼 수 있습니다."
-        
+
         // Property Conditions
         ,cond_0: "해당 사항 없음"
         ,cond_1: "1"
@@ -80,7 +83,7 @@ window.dictionary = window.dictionary || {};
         ,cond_5: "평균 이하"
         ,cond_6: "빈 상태"
         ,cond_7: "봉인 / 구조적 규정 준수"
-        
+
         // Navigation
         ,nav_homepage: "시의 웹사이트를 방문하십시오"
         ,nav_topics: "주제"

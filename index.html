@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/css/bootstrap.min.css">
     <style>body{padding-top:60px;}</style>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/lib/widget.css">
     <link rel="stylesheet" href="css/styles.css">
-    
+
     <!-- Logging -->
     <script type='text/javascript'>
         window._gaq = window._gaq || [];
@@ -26,7 +26,7 @@
                 ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
-            // Muscula 
+            // Muscula
             window.Muscula = { settings:{logId:"XCgjQIC-vKY0n", suppressErrors: false, branding: 'none'}};
             (function () {
                 var m = document.createElement('script'); m.type = 'text/javascript'; m.async = true;
@@ -65,13 +65,13 @@
 			</div>
 		</div>
 	</div>
-    
+
     <!-- Main Content Container -->
     <div class="container" id="main"></div>
-    
+
     <!-- AJAX loading spinner -->
     <div class="loader"><span class="icon"></span></div>
-    
+
     <!-- Home View Template -->
     <script type="text/template" id="tmpl-home">
         <h1><%= D("app_title") %></h1>
@@ -96,7 +96,7 @@
             </div>
             <button class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> <%= D("search_button") %></button>
         </form>
-        
+
         <ul id="language" class="nav nav-pills pull-right">
             <li<% if(AVI.language === "en"){ %> class="active"<%}%>><a href="" data-value="en">English</a></li>
             <li<% if(AVI.language === "es"){ %> class="active"<%}%>><a href="" data-value="es">Español</a></li>
@@ -106,7 +106,7 @@
             <li<% if(AVI.language === "vi"){ %> class="active"<%}%>><a href="" data-value="vi">Tiếng Việt</a></li>
         </ul>
     </script>
-    
+
     <!-- Property View Template -->
     <script type="text/template" id="tmpl-property">
         <h1>
@@ -167,7 +167,7 @@
                     <div class="widget-header">
                         <h3><%= D("estimate_2014_tax").replace("2014", data.property.new_value.certification_year) %></h3>
                     </div>
-                    <div class="widget-content">                        
+                    <div class="widget-content">
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("homestead_exemption") %></li>
                             <li>
@@ -213,7 +213,7 @@
                             <li class="nav-header"><%= D("sale_price") %>*</li>
                             <li>$<%= util.formatNumber(data.property.sales_information.sales_price || 0) %></li>
                             <li class="nav-header"><%= D("homestead") %></li>
-                            <li>$<%= data.property.characteristics.homestead ? util.formatNumber(data.property.characteristics.homestead) : "0**" %></li>
+                            <li><%= data.property.characteristics.homestead ? D("yes") : D("no") %>**</li>
                         </ul>
                     </div>
                     <div class="span5">
@@ -235,14 +235,12 @@
         </div>
         <p><%= D("disclaimer_learn") %></p>
         <p>* <%= D("disclaimer_sale_price") %></p>
-        <% if( ! data.property.characteristics.homestead) { %>
-        <p>** <%= D("disclaimer_homestead") %></p>
-        <% } %>
-        
+        <p>** <%= data.property.characteristics.homestead ? D("disclaimer_homestead_yes") : D("disclaimer_homestead_no")%></p>
+
         <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
-        
+
     </script>
-    
+
     <!-- Multiple Properties View Template -->
     <script type="text/template" id="tmpl-search-results">
         <h3><%= D("multiple_properties_found") %></h3>
@@ -250,12 +248,12 @@
         <button class="btn btn-large btn-block more" type="button" data-loading-text="Loading" data-error-text="<%= D("error")%>"><%= D("more_button") %></button>
         <br><br><a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
     </script>
-    
+
     <!-- Property Row View Template for Multiple Properties -->
     <script type="text/template" id="tmpl-search-results-row">
         <a href="#view/<%= data.searchResultsRow.account_number %>"><%= data.searchResultsRow.full_address %><% if(data.searchResultsRow.unit) { %> <span class="unit"><%= D("unit") %> : <%= data.searchResultsRow.unit %></span><% } %></a>
     </script>
-    
+
     <!-- Error View Template -->
     <script type="text/template" id="tmpl-error">
         <h1><%= D("error") %></h1>
@@ -277,7 +275,7 @@
     <script src="js/lib/jquery.cookie.min.js"></script>
     <script src="js/lib/jquery-jsonp.min.js"></script>
     <script src="js/lib/spinner.js"></script>
-    
+
     <!-- Application -->
     <script src="js/util.js"></script>
     <script src="js/dictionary/en.js"></script>

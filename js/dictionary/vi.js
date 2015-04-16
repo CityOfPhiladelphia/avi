@@ -6,13 +6,13 @@ window.dictionary = window.dictionary || {};
         ,app_desc1: "Quý vị có thể sử dụng ứng dụng này để ước tính thuế bất động sản của quý vị theo Chương Trình Giá Trị Thực Tế (AVI)."
         ,app_desc2: "Chương Trình Giá Trị Thực Tế, hay AVI, là một chương trình tái đánh giá tất cả các bất động sản trong thành phố để đảm bảo rằng giá trị là công bằng và chính xác. Nó cũng cung cấp một hệ thống thuế dễ hiểu hơn bằng cách loại bỏ các phân số phức tạp khi tính hóa đơn thuế."
         ,multiple_properties_found: "Nhiều Bất Động Sản Được Tìm Thấy"
-        
+
         // Forms
         ,address: "Địa chỉ"
         ,address_example: "ví dụ 908 N 3rd St"
         ,account: "# tài khoản"
         ,account_example: "ví dụ 883525510"
-        
+
         // Buttons
         ,search_button: "Tìm kiếm"
         ,select_option: "Chọn"
@@ -20,7 +20,7 @@ window.dictionary = window.dictionary || {};
         ,new_search_button: "Tìm Kiếm Mới"
         ,more_button: "Thêm"
         ,try_again_button: "Thử Lại"
-        
+
         // Value Fields
         ,previous_value: "Giá Trị Trước Đó"
         ,new_value: "Giá Trị Mới"
@@ -29,7 +29,7 @@ window.dictionary = window.dictionary || {};
         ,improvement_value: "Giá Trị Cải Thiện"
         ,exempt_value: "Giá Trị Giảm/Miễn"
         ,tax_2013: "Thuế 2013"
-        
+
         // Estimation Fields
         ,estimate_2014_tax: "Ước Tính Thuế Năm 2014"
         ,tax_desc: "Để tạo ra cùng một số lượng doanh thu năm tới như được ước tính cho năm nay, thuế suất tối thiểu 1,25% là cần thiết mà không có bất kỳ biện pháp cứu trợ nào. Với chương trình miễn thuế nhà $15.000, tối thiểu 1,3204% là cần thiết."
@@ -38,7 +38,7 @@ window.dictionary = window.dictionary || {};
         ,taxable_market_value: "Giá Trị Thị Trường Chịu Thuế"
         ,tax_rate: "Thuế Suất"
         ,estimated_2014_tax: "Thuế Ước Tính Năm 2014"
-        
+
         // Property Info
         ,unit: "Đơn vị"
         ,property_info: "Thông Tin Bất Động Sản"
@@ -52,14 +52,17 @@ window.dictionary = window.dictionary || {};
         ,beginning_point: "Điểm Khởi Đầu"
         ,ext_condition: "Điều Kiện Ngoại Thất"
         ,zoning: "Phân khu"
-        
+        ,yes: "Vâng"
+        ,no: "Không"
+
         // Disclaimers
         ,disclaimer_rates: "Các thuế suất này được sử dụng chỉ cho các mục đích ước tính và không phải là các thuế suất được đề xuất hoặc cuối cùng."
         ,disclaimer_learn: "Để tìm hiểu thêm về AVI, vui lòng ghé thăm <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "Giá bán được hiển thị có thể phản ánh việc bán nhiều bất động sản, và không nhất thiết là chỉ số duy nhất của giá trị thị trường hiện tại."
-        ,disclaimer_homestead: "Gọi 215-686-9200 để áp dụng hoặc để kiểm tra tình trạng hồ sơ của bạn."
-        
+        ,disclaimer_homestead_yes: "Nếu được chấp thuận cho Exemption Homestead, sau đó số tiền được tìm thấy dưới 'loại giảm / Giá trị được miễn thuế'. Bạn không đủ điều kiện để có miễn Homestead nếu bạn đã có một giảm hoặc đang theo học trong Chương trình Người cư ngụ lâu năm chủ (LOOP)."
+        ,disclaimer_homestead_no: "Nếu bạn sở hữu và chiếm tài sản của bạn là nơi ở chính của bạn , sau đó bạn có thể áp dụng cho những Miễn Homestead. <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Áp dụng</a> trực tuyến hoặc gọi 215-686-9200 để đơn bằng điện thoại. Bạn không đủ điều kiện cũng có Exemption Homestead nếu bạn đã có một giảm hoặc đang theo học trong Chương trình Người cư ngụ lâu năm chủ (LOOP)."
+
         // Errors
         ,error: "Lỗi"
         ,error_being_updated: "Dữ liệu cho bất động sản này đang được cập nhật. Xin vui lòng kiểm tra lại sau."
@@ -70,7 +73,7 @@ window.dictionary = window.dictionary || {};
         ,error_verifying: "Lỗi xảy ra trong khi xác nhận địa chỉ. Xin vui lòng thử lại."
         ,error_generic: "Có lỗi đã xảy ra. Xin vui lòng thử lại."
         ,error_addendum: "Quý vị cũng có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
-        
+
         // Property Conditions
         ,cond_0: "Không Áp Dụng"
         ,cond_1: "1"
@@ -80,7 +83,7 @@ window.dictionary = window.dictionary || {};
         ,cond_5: "Dưới Trung Bình"
         ,cond_6: "Bỏ không"
         ,cond_7: "Niêm Kín / Phù Hợp Với Kết Cấu"
-        
+
         // Navigation
         ,nav_homepage: "Ghé Thăm Trang Chủ của Thành Phố"
         ,nav_topics: "Các chủ đề"
