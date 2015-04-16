@@ -169,8 +169,8 @@
                     </div>
                     <div class="widget-content">
                         <ul class="nav nav-list">
-                            <li class="nav-header"><%= D("homestead_exemption") %></li>
-                            <li>
+                            <li class="nav-header<%= data.property.characteristics.homestead ? ' hidden' : '' %>"><%= D("homestead_exemption") %></li>
+                            <li class="<%= data.property.characteristics.homestead ? ' hidden' : '' %>">
                                 <select name="homestead" id="homestead" class="input-medium">
                                     <option value="0"><%= D("select_option") %>...</option>
                                     <option value="0"><%= D("no_homestead") %></option>
