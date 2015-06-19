@@ -200,7 +200,7 @@ window.Backbone = window.Backbone || {};
                 ,exemptValue = this.model.get("new_value").land_exempt + this.model.get("new_value").improvement_exempt
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
                 //,rate = parseFloat(this.$("#rate").val())
-                ,rate = 1.34
+                ,rate = 1.3998
                 ,taxableValue = Math.max(0, marketValue - exemptValue - homestead)
                 ,tax = Math.max(0, taxableValue * (rate / 100));
             
