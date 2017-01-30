@@ -84,7 +84,7 @@ window.Backbone = window.Backbone || {};
         ,url: function() {
             return this.settings.apiHost + this.method + "/" + this.input +
                    "/?limit=" + this.limit + "&skip=" + this.skip +
-                   '&include_units&opa_only&gatekeeperKey=' + 
+                   '&include_units&opa_only&gatekeeperKey=' +
                    this.settings.apiKey;
         }
         ,parse: function(response, options) {
@@ -101,7 +101,8 @@ window.Backbone = window.Backbone || {};
                 var features = _.filter(response.features, function (feature) {
                   // ignore ais "parsed" results (aka addresses that have
                   // been parsed but don't exist)
-                  return feature.match_type != 'parsed';
+                  var matchType = feature.match_type;
+                  return !(matchType == 'parsed' || matchType === 'unmatched');
                 });
                 if(response.status === "error" || ! features.length) {
                     oldOptions.error({status: 404});
