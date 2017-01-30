@@ -57,22 +57,22 @@ window.dictionary = window.dictionary || {};
 
         // Disclaimers
         ,disclaimer_rates: "These tax rates are to be used for estimating purposes only and are not the proposed or final tax rates."
-        ,disclaimer_learn: "To learn more about AVI, please go to <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,disclaimer_learn: "To learn more about AVI, please go to <a href=\"http://property.phila.gov\" target=\"_blank\">property.phila.gov</a>"
         ,disclaimer_appeal: "The deadline to file a First Level Review for tax year 2014 has passed.  If you think your new assessed value does not reflect what it could sell for in the market, you may file an appeal to the BRT on or before October 7, 2013."
         ,disclaimer_sale_price: "The sale price displayed may reflect the sale of multiple properties, and is not necessarily the sole indicator of current market value."
         ,disclaimer_homestead_yes: "If approved for the Homestead Exemption, the amount is indicated under 'Abatement/Exempt Value'. If you already have an abatement or are enrolled in the Longtime Owner Occupants Program (LOOP), then you are ineligible to also have the Homestead Exemption."
-        ,disclaimer_homestead_no: "If you own and occupy your property as your primary residence, then you can apply for the Homestead Exemption. To apply, call 215‐686‐9200 or <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>apply online</a>. If you already have an abatement or are enrolled in the Longtime Owner Occupants Program (LOOP), then you are ineligible to also have the Homestead Exemption."
+        ,disclaimer_homestead_no: "If you own and occupy your property as your primary residence, then you can apply for the Homestead Exemption. To apply, call 215‐686‐9200 or <a href='http://property.phila.gov/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>apply online</a>. If you already have an abatement or are enrolled in the Longtime Owner Occupants Program (LOOP), then you are ineligible to also have the Homestead Exemption."
 
         // Errors
         ,error: "Error"
         ,error_being_updated: "Data for this property is being updated. Please check back later."
         ,error_no_matches: "No matches found for <code>%s</code>."
         ,error_best_results: "For best results, try entering the account number of your property."
-        ,error_should_have_worked: "If you think this should have worked, you can try searching at <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_should_have_worked: "If you think this should have worked, you can try searching at <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
         ,error_database: "An error occurred while finding the property in the database. Please try again."
         ,error_verifying: "An error occurred while verifying the address. Please try again."
         ,error_generic: "An error occurred. Please try again."
-        ,error_addendum: "You can also try searching at <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_addendum: "You can also try searching at <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
 
         // Property Conditions
         ,cond_0: "Not Applicable"
