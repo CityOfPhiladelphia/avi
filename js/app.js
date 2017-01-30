@@ -71,6 +71,7 @@ window.Backbone = window.Backbone || {};
     app.Collections.SearchResults = Backbone.Collection.extend({
         settings: {
             apiHost: "http://api.phila.gov/ais/v1/"
+            ,apiKey: 'a7fcb40dbf4ed265f9d5cf3d68d64b62'
             ,skip: 0
             ,limit: 30
         }
@@ -81,7 +82,10 @@ window.Backbone = window.Backbone || {};
             this.limit = this.settings.limit;
         }
         ,url: function() {
-            return this.settings.apiHost + this.method + "/" + this.input + "/?limit=" + this.limit + "&skip=" + this.skip + '&include_units&opa_only';
+            return this.settings.apiHost + this.method + "/" + this.input +
+                   "/?limit=" + this.limit + "&skip=" + this.skip +
+                   '&include_units&opa_only&gatekeeperKey=' + 
+                   this.settings.apiKey;
         }
         ,parse: function(response, options) {
             this.moreAvailable = response.total_size > this.length + response.features.length;
