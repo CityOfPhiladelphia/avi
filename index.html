@@ -251,7 +251,8 @@
 
     <!-- Property Row View Template for Multiple Properties -->
     <script type="text/template" id="tmpl-search-results-row">
-        <a href="#view/<%= data.searchResultsRow.account_number %>"><%= data.searchResultsRow.full_address %><% if(data.searchResultsRow.unit) { %> <span class="unit"><%= D("unit") %> : <%= data.searchResultsRow.unit %></span><% } %></a>
+        <!-- <a href="#view/<%= data.searchResultsRow.properties.opa_account_num %>"><%= data.searchResultsRow.properties.street_address %></a> -->
+        <a href="#view/<%= data.searchResultsRow.properties.opa_account_num %>"><%= data.searchResultsRow.properties.street_address %></a>
     </script>
 
     <!-- Error View Template -->
