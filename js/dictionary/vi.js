@@ -57,22 +57,22 @@ window.dictionary = window.dictionary || {};
 
         // Disclaimers
         ,disclaimer_rates: "Các thuế suất này được sử dụng chỉ cho các mục đích ước tính và không phải là các thuế suất được đề xuất hoặc cuối cùng."
-        ,disclaimer_learn: "Để tìm hiểu thêm về AVI, vui lòng ghé thăm <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,disclaimer_learn: "Để tìm hiểu thêm về AVI, vui lòng ghé thăm <a href=\"http://property.phila.gov\" target=\"_blank\">property.phila.gov</a>"
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "Giá bán được hiển thị có thể phản ánh việc bán nhiều bất động sản, và không nhất thiết là chỉ số duy nhất của giá trị thị trường hiện tại."
         ,disclaimer_homestead_yes: "Nếu được chấp thuận cho Exemption Homestead, sau đó số tiền được tìm thấy dưới 'loại giảm / Giá trị được miễn thuế'. Bạn không đủ điều kiện để có miễn Homestead nếu bạn đã có một giảm hoặc đang theo học trong Chương trình Người cư ngụ lâu năm chủ (LOOP)."
-        ,disclaimer_homestead_no: "Nếu bạn sở hữu và chiếm tài sản của bạn là nơi ở chính của bạn , sau đó bạn có thể áp dụng cho những Miễn Homestead. <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Áp dụng</a> trực tuyến hoặc gọi 215-686-9200 để đơn bằng điện thoại. Bạn không đủ điều kiện cũng có Exemption Homestead nếu bạn đã có một giảm hoặc đang theo học trong Chương trình Người cư ngụ lâu năm chủ (LOOP)."
+        ,disclaimer_homestead_no: "Nếu bạn sở hữu và chiếm tài sản của bạn là nơi ở chính của bạn , sau đó bạn có thể áp dụng cho những Miễn Homestead. <a href='http://property.phila.gov/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Áp dụng</a> trực tuyến hoặc gọi 215-686-9200 để đơn bằng điện thoại. Bạn không đủ điều kiện cũng có Exemption Homestead nếu bạn đã có một giảm hoặc đang theo học trong Chương trình Người cư ngụ lâu năm chủ (LOOP)."
 
         // Errors
         ,error: "Lỗi"
         ,error_being_updated: "Dữ liệu cho bất động sản này đang được cập nhật. Xin vui lòng kiểm tra lại sau."
         ,error_no_matches: "Không có kết quả phù hợp được tìm thấy cho <code>%s</code>."
         ,error_best_results: "Để có các kết quả tốt nhất, hãy thử nhập số tài khoản của bất động sản của quý vị."
-        ,error_should_have_worked: "Nếu nghĩ rằng điều này có hiệu quả, quý vị có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_should_have_worked: "Nếu nghĩ rằng điều này có hiệu quả, quý vị có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
         ,error_database: "Lỗi xảy ra trong khi tìm kiếm bất động sản trong cơ sở dữ liệu. Xin vui lòng thử lại."
         ,error_verifying: "Lỗi xảy ra trong khi xác nhận địa chỉ. Xin vui lòng thử lại."
         ,error_generic: "Có lỗi đã xảy ra. Xin vui lòng thử lại."
-        ,error_addendum: "Quý vị cũng có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_addendum: "Quý vị cũng có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
 
         // Property Conditions
         ,cond_0: "Không Áp Dụng"

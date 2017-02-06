@@ -57,22 +57,22 @@ window.dictionary = window.dictionary || {};
 
         // Disclaimers
         ,disclaimer_rates: "Estas tasas impositivas deben utilizarse solo para fines estimativos y no son las tasas propuestas o finales."
-        ,disclaimer_learn: "Para conocer más acerca de AVI, visite <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,disclaimer_learn: "Para conocer más acerca de AVI, visite <a href=\"http://property.phila.gov\" target=\"_blank\">property.phila.gov</a>"
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "El precio de venta presentado puede reflejar la venta de varias propiedades y no es necesariamente el único indicador del valor actual de mercado."
         ,disclaimer_homestead_yes: "Si usted es aprobado para la Exención Homestead, entonces la cantidad se encuentra en 'Reducción / Valor Exento'. Usted no es elegible para que la Exención Homestead si ya tienes una reducción o está inscrito en el Programa El veterano Ocupantes Propietario (LOOP)."
-        ,disclaimer_homestead_no: "Si usted es dueño y ocupa su propiedad como su residencia principal, entonces usted puede solicitar la exención Homestead . <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Aplicar en línea</a> o llame al 215-686-9200 para solicitar por teléfono. Usted no tiene derecho a tener también la exención Homestead si ya tienes una reducción o está inscrito en el Programa El veterano Ocupantes Propietario (LOOP)."
+        ,disclaimer_homestead_no: "Si usted es dueño y ocupa su propiedad como su residencia principal, entonces usted puede solicitar la exención Homestead . <a href='http://property.phila.gov/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Aplicar en línea</a> o llame al 215-686-9200 para solicitar por teléfono. Usted no tiene derecho a tener también la exención Homestead si ya tienes una reducción o está inscrito en el Programa El veterano Ocupantes Propietario (LOOP)."
 
         // Errors
         ,error: "Error"
         ,error_being_updated: "Los datos de esta propiedad se están actualizando. Vuelva a intentarlo más tarde."
         ,error_no_matches: "No se encontró ninguna coincidencia para <code>%s</code>."
         ,error_best_results: "Para obtener mejores resultados, intente ingresar el número de cuenta de su propiedad."
-        ,error_should_have_worked: "Si cree que esto debiera haber funcionado, puede intentar la búsqueda en <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_should_have_worked: "Si cree que esto debiera haber funcionado, puede intentar la búsqueda en <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
         ,error_database: "Se produjo un error al buscar la propiedad en la base de datos. Vuelva a intentarlo."
         ,error_verifying: "Se produjo un error al verificar la dirección. Vuelva a intentarlo."
         ,error_generic: "Se produjo un error. Vuelva a intentarlo."
-        ,error_addendum: "También puede intentar la búsqueda en <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_addendum: "También puede intentar la búsqueda en <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
 
         // Property Conditions
         ,cond_0: "No corresponde"

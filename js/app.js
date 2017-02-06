@@ -4,7 +4,7 @@ window.jQuery = window.jQuery || {};
 window._ = window._ || {};
 window.Backbone = window.Backbone || {};
 (function(window, $, _, Backbone, app, util) {
-    
+
     /**
      * Config
      * TODO: Override backbone ajax with jquery-jsonp
@@ -14,7 +14,7 @@ window.Backbone = window.Backbone || {};
     _.templateSettings.variable = "data"; // Namespace for template data
     $.ajaxSetup({cache: true, timeout: 15000}); // Cache ajax requests (used by typeahead)
     app.language = $.cookie("language") || "en";
-    
+
     /**
      * If no CORS support, use jquery-jsonp library for ajax
      */
@@ -27,7 +27,7 @@ window.Backbone = window.Backbone || {};
         }
         return Backbone.$.ajax.apply(Backbone.$, arguments);
     };
-    
+
     app.Models.Property = Backbone.Model.extend({
         settings: {
             apiHost: "http://api.phila.gov/opa/v1.1/"
@@ -36,11 +36,12 @@ window.Backbone = window.Backbone || {};
             this.input = options.input || "";
         }
         ,url: function() {
-            return this.settings.apiHost + "account/" + this.input + "?format=json";
+            var url = this.settings.apiHost + "account/" + this.input + "?format=json";
+            return url;
         }
         ,parse: function(response, options) {
             var property = response.data.property;
-            
+
             // If proposed valuation has data, use that as the "new value"; otherwise, use valuation history for values
             if( ! _.isEmpty(property.proposed_valuation)) {
                 property.new_value = property.proposed_valuation;
@@ -50,7 +51,7 @@ window.Backbone = window.Backbone || {};
                 property.new_value = property.valuation_history[0];
                 property.previous_value = property.valuation_history[1];
             }
-            
+
             // If previous value year is < 2014 (prior to AVI), divide the values by 32% to get taxable market value
             if(parseInt(property.previous_value.certification_year, 0) < 2014) {
                 property.previous_value.land_taxable /= .32;
@@ -58,33 +59,37 @@ window.Backbone = window.Backbone || {};
                 property.previous_value.improvement_taxable /= .32;
                 property.previous_value.improvement_exempt /= .32;
             }
-            
+
             // Parse timestamp from API
             property.sales_information.sales_date = parseInt(property.sales_information.sales_date.replace(/[^-\d]/g, ""), 0);
-            
+
             return property;
         }
         //,sync: function(method, collection, options) {
 	});
-    
+
     app.Collections.SearchResults = Backbone.Collection.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa/v1.1/"
+            apiHost: "http://api.phila.gov/ais/v1/"
+            ,apiKey: 'a7fcb40dbf4ed265f9d5cf3d68d64b62'
             ,skip: 0
             ,limit: 30
         }
         ,initialize: function(models, options) {
-            this.method = options.method || "";
+            this.method = 'search';
             this.input = options.input || "";
             this.skip = this.settings.skip;
             this.limit = this.settings.limit;
         }
         ,url: function() {
-            return this.settings.apiHost + this.method + "/" + this.input + "/?format=json&limit=" + this.limit + "&skip=" + this.skip;
+            return this.settings.apiHost + this.method + "/" + this.input +
+                   "/?limit=" + this.limit + "&skip=" + this.skip +
+                   '&include_units&opa_only&gatekeeperKey=' +
+                   this.settings.apiKey;
         }
         ,parse: function(response, options) {
-            this.moreAvailable = response.total > this.length + response.data.properties.length;
-            return response.data.properties;
+            this.moreAvailable = response.total_size > this.length + response.features.length;
+            return response.features;
         }
         /**
         * Override sync to return 404 if no records
@@ -93,7 +98,13 @@ window.Backbone = window.Backbone || {};
             var collection = this
                 ,oldOptions = _.clone(options);
             options.success = function(response, status, options) {
-                if(response.status === "error" || response.data.properties === undefined || ! response.data.properties.length) {
+                var features = _.filter(response.features, function (feature) {
+                  // ignore ais "parsed" results (aka addresses that have
+                  // been parsed but don't exist)
+                  var matchType = feature.match_type;
+                  return !(matchType == 'parsed' || matchType === 'unmatched');
+                });
+                if(response.status === "error" || ! features.length) {
                     oldOptions.error({status: 404});
                 } else {
                     oldOptions.success(response, options);
@@ -102,7 +113,7 @@ window.Backbone = window.Backbone || {};
             Backbone.sync(method, collection, options);
         }
     });
-    
+
     /**
      * Home/Search View
      * Handles enhanced <select>, form submission
@@ -143,9 +154,9 @@ window.Backbone = window.Backbone || {};
             var field = $("#field").data("value")
                 ,inputNode = e.currentTarget.input
                 ,input = $.trim(inputNode.value);
-            
+
             input = this.sanitize(input, field);
-            
+
             if(input && field === "actnum") {
                 app.router.navigate("view/" + input, {trigger: true});
             } else if(input && field === "address") {
@@ -158,7 +169,7 @@ window.Backbone = window.Backbone || {};
             return typeof input === "string" ? input.replace(type === "actnum" ? /[^\d]/g : /[^\w\d\s-]/g, "") : "";
         }
     });
-    
+
     /**
      * Property View
      * Renders the property details and handles user calculations
@@ -203,10 +214,10 @@ window.Backbone = window.Backbone || {};
                 ,rate = 1.3998
                 ,taxableValue = Math.max(0, marketValue - exemptValue - homestead)
                 ,tax = Math.max(0, taxableValue * (rate / 100));
-            
+
             // Show taxable market value
             this.$("#taxable-value").text("$" + util.formatNumber(taxableValue));
-                
+
             // Show new tax
             this.$("#tax").text("$" + util.formatNumber(tax, true));
         }
@@ -219,7 +230,7 @@ window.Backbone = window.Backbone || {};
             }
         }
     });
-    
+
     /**
      * Search Results View
      * When multiple properties are found for the user's input, this renders a list
@@ -269,7 +280,7 @@ window.Backbone = window.Backbone || {};
             this.$(".more").toggle(this.collection.moreAvailable);
         }
     });
-    
+
     /**
      * Search Results Row View
      * The individual row in the list of multiple properties found in a search result
@@ -285,7 +296,7 @@ window.Backbone = window.Backbone || {};
             return this;
         }
     })
-    
+
     /**
      * Error View
      * Displayed when there is an ajax error
@@ -309,7 +320,7 @@ window.Backbone = window.Backbone || {};
             window.location.reload();
         }
     })
-    
+
     /**
      * Application Router
      */
@@ -356,7 +367,6 @@ window.Backbone = window.Backbone || {};
         ,view: function(input) {
             var self = this;
             input = decodeURIComponent(input);
-            //app.properties = new app.Collections.Properties(null, {actnum: actnum});
             app.property = new app.Models.Property({input: input});
             util.loading(true);
             app.property.fetch({
@@ -388,7 +398,11 @@ window.Backbone = window.Backbone || {};
                     util.loading(false);
                     if(collection.length === 1) {
                         // If we found 1 account number, view it
-                        self.navigate("view/" + collection.at(0).get("account_number"), {trigger: true, replace: true});
+                        var obj = collection.at(0),
+                            acct = obj.attributes.properties.opa_account_num;
+
+                        // self.navigate("view/" + collection.at(0).get("properties").get('opa_account_num'), {trigger: true, replace: true});
+                        self.navigate("view/" + acct, {trigger: true, replace: true});
                     } else {
                         // If we found multiple account numbers, get the addresses of each
                         //self.multiple(collection.pluck("TopicID"));
@@ -433,7 +447,7 @@ window.Backbone = window.Backbone || {};
             if(window.DEBUG) console.log("Google Analytics Error", error, url);
         }
     });
-    
+
     /**
      * Initiate application
      */
@@ -441,5 +455,5 @@ window.Backbone = window.Backbone || {};
         app.router = new app.Routers.AppRouter();
         Backbone.history.start();
     });
-    
+
 })(window, window.jQuery, window._, window.Backbone, window.AVI, window.util);

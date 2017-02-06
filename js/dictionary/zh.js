@@ -57,22 +57,22 @@ window.dictionary = window.dictionary || {};
 
         // Disclaimers
         ,disclaimer_rates: "該等稅率僅用於估算目的，且並非擬定或最終稅率。"
-        ,disclaimer_learn: "欲知 AVI 詳情，請前往 <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,disclaimer_learn: "欲知 AVI 詳情，請前往 <a href=\"http://property.phila.gov\" target=\"_blank\">property.phila.gov</a>"
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "所顯示的銷售價格可反映多個物業的銷售，且不一定為當前市值的唯一指標。"
         ,disclaimer_homestead_yes: "如果您被批准的宅基地豁免，则量下的“减排/豁免值”找到。你是没有资格拥有宅基地豁免，如果你已经有一个减排或正在就读于隆泰业主居住者计划（LOOP）。"
-        ,disclaimer_homestead_no: "如果你拥有和占据你的财产作为您的主要居住地，那么你可以申请宅基地豁免。 <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>在线申请</a>或拨打215-686-9200电话申请。你是没有资格也有宅基地豁免，如果你已经有一个减排或正在就读于隆泰业主居住者计划（LOOP）。"
+        ,disclaimer_homestead_no: "如果你拥有和占据你的财产作为您的主要居住地，那么你可以申请宅基地豁免。 <a href='http://property.phila.gov/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>在线申请</a>或拨打215-686-9200电话申请。你是没有资格也有宅基地豁免，如果你已经有一个减排或正在就读于隆泰业主居住者计划（LOOP）。"
 
         // Errors
         ,error: "錯誤"
         ,error_being_updated: "此物業的數據已被更新。請稍後檢查。"
         ,error_no_matches: "未找到 <code>%s</code>的匹配項目。"
         ,error_best_results: "如欲得到最佳結果，請嘗試輸入您物業的賬號。"
-        ,error_should_have_worked: "如果您認為此法應當奏效，您可嘗試在 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a> 上進行搜尋"
+        ,error_should_have_worked: "如果您認為此法應當奏效，您可嘗試在 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a> 上進行搜尋"
         ,error_database: "在資料庫中尋找物業時發生一個錯誤。請重試。"
         ,error_verifying: "在驗證地址時發生一個錯誤。請重試。"
         ,error_generic: "發生一個錯誤。請重試。"
-        ,error_addendum: "您還可嘗試在 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a> 上進行搜尋"
+        ,error_addendum: "您還可嘗試在 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a> 上進行搜尋"
 
         // Property Conditions
         ,cond_0: "不適用"

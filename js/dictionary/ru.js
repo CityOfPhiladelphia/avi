@@ -57,22 +57,22 @@ window.dictionary = window.dictionary || {};
 
         // Disclaimers
         ,disclaimer_rates: "Эти налоговые ставки следует использовать только в целях расчета; они не являются предлагаемыми или окончательными налоговыми ставками."
-        ,disclaimer_learn: "Чтобы больше узнать об AVI, зайдите на веб-сайт <a href=\"http://www.phila.gov/opa\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,disclaimer_learn: "Чтобы больше узнать об AVI, зайдите на веб-сайт <a href=\"http://property.phila.gov\" target=\"_blank\">property.phila.gov</a>"
         ,disclaimer_appeal: " "
         ,disclaimer_sale_price: "Показанная цена продажи может отражать сумму продажу нескольких объектов недвижимости и не обязательно является единственным показателем текущей рыночной стоимости."
         ,disclaimer_homestead_yes: "Если вы одобрен для Усадьба исключения, токоличество находится в разделе 'борьбы с загрязнением воздуха / Освобожденный стоимости'. Вы не имеете права иметь приусадебный освобождение, если у вас уже есть борьбы с выбросами или зачислены в долгосрочном Владелец Оккупанты программы (цикла)"
-        ,disclaimer_homestead_no: "Если у вас есть и занимают свое имущество в качестве основного места жительства, то вы можете подать заявку на Ферме исключения. <a href='http://www.phila.gov/OPA/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Нанесите на форуме</a> или позвоните по телефону 215-686-9200, чтобы применить по телефону . Вы не имеете права также имеют приусадебный освобождение, если у вас уже есть борьбы с выбросами или зачислены в долгосрочном Владелец Оккупанты программы (цикла)."
+        ,disclaimer_homestead_no: "Если у вас есть и занимают свое имущество в качестве основного места жительства, то вы можете подать заявку на Ферме исключения. <a href='http://property.phila.gov/AbatementsExemptions/Pages/Homestead.aspx' target='_blank'>Нанесите на форуме</a> или позвоните по телефону 215-686-9200, чтобы применить по телефону . Вы не имеете права также имеют приусадебный освобождение, если у вас уже есть борьбы с выбросами или зачислены в долгосрочном Владелец Оккупанты программы (цикла)."
 
         // Errors
         ,error: "Ошибка"
         ,error_being_updated: "Данные по этому объекту недвижимости обновляются. Пожалуйста, проверьте позже."
         ,error_no_matches: "Не найдено соответствий для <code>%s</code>."
         ,error_best_results: "Для получения наиболее точных результатов попробуйте ввести учетный номер вашего объекта недвижимости."
-        ,error_should_have_worked: "Если вы считаете, что это должно было сработать, вы можете попробовать поискать на веб-сайте <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_should_have_worked: "Если вы считаете, что это должно было сработать, вы можете попробовать поискать на веб-сайте <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
         ,error_database: "Произошла ошибка при поиске объекта недвижимости в базе данных. Пожалуйста, повторите попытку. "
         ,error_verifying: "Произошла ошибка при проверке адреса. Пожалуйста, повторите попытку."
         ,error_generic: "Произошла ошибка. Пожалуйста, повторите попытку."
-        ,error_addendum: "Также вы можете попробовать осуществить поиск на веб-сайте <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">www.phila.gov/opa</a>"
+        ,error_addendum: "Также вы можете попробовать осуществить поиск на веб-сайте <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
 
         // Property Conditions
         ,cond_0: "Неприменимо"
