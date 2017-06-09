@@ -30,7 +30,7 @@ window.Backbone = window.Backbone || {};
 
     app.Models.Property = Backbone.Model.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa/v1.1/"
+            apiHost: "http://api.phila.gov/opa_avi/v1.1/"
         }
         ,initialize: function(options) {
             this.input = options.input || "";
