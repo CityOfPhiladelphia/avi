@@ -1,11 +1,11 @@
-#Actual Value Initiative Calculator
+# Actual Value Initiative Calculator
 
 ## Overview
 You can use this application to estimate your real estate tax under the Actual Value Initiative (AVI).
 
 The Actual Value Initiative, or AVI, is a program for re-evaluating all properties in the city to ensure that values are fair and accurate. It also provides for an easier to understand tax system by removing complicated fractions when calculating tax bills.
 
-##Help Improve This App
+## Help Improve This App
 
 If you wish to contribute to this app, or suggest a bug fix, you may submit a pull request as follows:
 
