@@ -30,40 +30,17 @@ window.Backbone = window.Backbone || {};
 
     app.Models.Property = Backbone.Model.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa_avi/v1.1/"
+            apiHost: "https://phl.carto.com/api/v2/sql"
         }
         ,initialize: function(options) {
             this.input = options.input || "";
         }
         ,url: function() {
-            var url = this.settings.apiHost + "account/" + this.input + "?format=json";
-            return url;
+            return this.settings.apiHost + "?q=select * from opa_properties_public " +
+                "where parcel_number = '" + this.input + "'";
         }
         ,parse: function(response, options) {
-            var property = response.data.property;
-
-            // If proposed valuation has data, use that as the "new value"; otherwise, use valuation history for values
-            if( ! _.isEmpty(property.proposed_valuation)) {
-                property.new_value = property.proposed_valuation;
-                property.previous_value = property.valuation_history[0];
-                property.new_value.certification_year = parseInt(property.previous_value.certification_year, 0) + 1; // proposed_valuation has no year field, so we increment from previous_value's
-            } else {
-                property.new_value = property.valuation_history[0];
-                property.previous_value = property.valuation_history[1];
-            }
-
-            // If previous value year is < 2014 (prior to AVI), divide the values by 32% to get taxable market value
-            if(parseInt(property.previous_value.certification_year, 0) < 2014) {
-                property.previous_value.land_taxable /= .32;
-                property.previous_value.land_exempt /= .32;
-                property.previous_value.improvement_taxable /= .32;
-                property.previous_value.improvement_exempt /= .32;
-            }
-
-            // Parse timestamp from API
-            property.sales_information.sales_date = parseInt(property.sales_information.sales_date.replace(/[^-\d]/g, ""), 0);
-
-            return property;
+            return response.rows[0];
         }
         //,sync: function(method, collection, options) {
 	});
@@ -404,6 +381,7 @@ window.Backbone = window.Backbone || {};
                     self.showView(app.propertyView);
                 })
                 .catch(function(errors) {
+                    console && console.error && console.error(errors);
                     util.loading(false);
                     self.error({}, {}, {}
                         ,window.D("error_database")

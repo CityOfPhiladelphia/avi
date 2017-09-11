@@ -110,11 +110,11 @@
     <!-- Property View Template -->
     <script type="text/template" id="tmpl-property">
         <h1>
-            <%= data.property.full_address %>
+            <%= data.property.location %>
             <% if($.trim(data.property.unit)) { %>
                 <span class="unit"><%= D("unit") %>: <%= data.property.unit %></span>
             <% } %>
-            <small><%= D("account") %> <%= data.property.account_number %></small>
+            <small><%= D("account") %> <%= data.property.parcel_number %></small>
         </h1>
         <div class="row">
             <div class="span4">
@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            <% if(data.property.new_value.market_value >= 0) { %>
+            <% if(next.market_value >= 0) { %>
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
@@ -169,8 +169,8 @@
                     </div>
                     <div class="widget-content">
                         <ul class="nav nav-list">
-                            <li class="nav-header<%= data.property.characteristics.homestead ? ' hidden' : '' %>"><%= D("homestead_exemption") %></li>
-                            <li class="<%= data.property.characteristics.homestead ? ' hidden' : '' %>">
+                            <li class="nav-header<%= data.property.homestead_exemption ? ' hidden' : '' %>"><%= D("homestead_exemption") %></li>
+                            <li class="<%= data.property.homestead_exemption ? ' hidden' : '' %>">
                                 <select name="homestead" id="homestead" class="input-medium">
                                     <option value="0"><%= D("select_option") %>...</option>
                                     <option value="0"><%= D("no_homestead") %></option>
@@ -202,32 +202,32 @@
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("owners") %></li>
                             <li>
-                                <% _.each(data.property.ownership.owners, function(owner) { %>
-                                    <%= owner %><br>
-                                <% }); %>
+                                <%= data.property.owner_1 %>
+                                <br>
+                                <%= data.property.owner_2 %>
                             </li>
                             <li class="nav-header"><%= D("zip") %></li>
-                            <li><%= data.property.zip %>
+                            <li><%= data.property.zip_code %>
                             <li class="nav-header"><%= D("sale_date") %></li>
-                            <li><%= util.friendlyDate(data.property.sales_information.sales_date) %></li>
+                            <li><%= util.friendlyDate(data.property.sale_date) %></li>
                             <li class="nav-header"><%= D("sale_price") %>*</li>
-                            <li>$<%= util.formatNumber(data.property.sales_information.sales_price || 0) %></li>
+                            <li>$<%= util.formatNumber(data.property.sale_price || 0) %></li>
                             <li class="nav-header"><%= D("homestead") %></li>
-                            <li><%= data.property.characteristics.homestead ? D("yes") : D("no") %>**</li>
+                            <li><%= data.property.homestead_exemption ? D("yes") : D("no") %>**</li>
                         </ul>
                     </div>
                     <div class="span5">
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("land_area") %></li>
-                            <li><%= util.formatNumber(data.property.characteristics.land_area || 0) %> SqFt</li>
+                            <li><%= util.formatNumber(data.property.total_area || 0) %> SqFt</li>
                             <li class="nav-header"><%= D("improvement_area") %></li>
-                            <li><%= util.formatNumber(data.property.characteristics.improvement_area || 0) %> SqFt</li>
+                            <li><%= util.formatNumber(data.property.total_livable_area || 0) %> SqFt</li>
                             <li class="nav-header"><%= D("beginning_point") %></li>
-                            <li><%= data.property.characteristics.beginning_point %></li>
+                            <li><%= data.property.beginning_point %></li>
                             <li class="nav-header"><%= D("ext_condition") %></li>
-                            <li><%= window.D("cond_" + (data.property.characteristics.exterior_condition ? data.property.characteristics.exterior_condition : "0")) %></li>
+                            <li><%= window.D("cond_" + (data.property.exterior_condition ? data.property.exterior_condition : "0")) %></li>
                             <li class="nav-header"><%= D("zoning") %></li>
-                            <li><%= data.property.characteristics.zoning %></li>
+                            <li><%= data.property.zoning %></li>
                         </ul>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
         </div>
         <p><%= D("disclaimer_learn") %></p>
         <p>* <%= D("disclaimer_sale_price") %></p>
-        <p>** <%= data.property.characteristics.homestead ? D("disclaimer_homestead_yes") : D("disclaimer_homestead_no")%></p>
+        <p>** <%= data.property.homestead_exemption ? D("disclaimer_homestead_yes") : D("disclaimer_homestead_no")%></p>
 
         <a href="#" class="btn btn-large"><i class="icon-chevron-left"></i> <%= D("new_search_button") %></a>
 
