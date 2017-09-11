@@ -114,6 +114,22 @@ window.Backbone = window.Backbone || {};
         }
     });
 
+    app.Collections.AssessmentHistory = Backbone.Collection.extend({
+        settings: {
+            apiHost: "https://phl.carto.com/api/v2/sql"
+        }
+        ,initialize: function(models, options) {
+            this.input = options.input || "";
+        }
+        ,url: function() {
+            return this.settings.apiHost + "?q=select * from assessments " +
+                "where parcel_number = '" + this.input + "'";
+        }
+        ,parse: function(response, options) {
+            return response.rows;
+        }
+    });
+
     /**
      * Home/Search View
      * Handles enhanced <select>, form submission
@@ -188,7 +204,10 @@ window.Backbone = window.Backbone || {};
             //,"change #rate-container": "onChangeRate"
         }
         ,render: function() {
-            this.$el.html(this.template({property: this.model.toJSON()}));
+            this.$el.html(this.template({
+                property: this.model.toJSON()
+                ,assessmentHistory: this.collection.toJSON()
+            }));
             //this.activateSpinner();
             this.estimate();
             this.title = this.model.get("full_address");
@@ -207,8 +226,10 @@ window.Backbone = window.Backbone || {};
             }
         }*/
         ,estimate: function() {
-            var marketValue = this.model.get("new_value").market_value
-                ,exemptValue = this.model.get("new_value").land_exempt + this.model.get("new_value").improvement_exempt
+            var prevValue = this.collection.at(1);
+            var nextValue = this.collection.at(0);
+            var marketValue = nextValue.get("market_value")
+                ,exemptValue = nextValue.get("exempt_land") + nextValue.get("exempt_building")
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
                 //,rate = parseFloat(this.$("#rate").val())
                 ,rate = 1.3998
@@ -368,21 +389,27 @@ window.Backbone = window.Backbone || {};
             var self = this;
             input = decodeURIComponent(input);
             app.property = new app.Models.Property({input: input});
+            app.assessmentHistory = new app.Collections.AssessmentHistory(null, {input: input});
             util.loading(true);
-            app.property.fetch({
-                success: function(model, response, options) {
+            var promises = [];
+            promises.push(app.property.fetch());
+            promises.push(app.assessmentHistory.fetch());
+            Promise.all(promises)
+                .then(function(results) {
                     util.loading(false);
-                    app.propertyView = new app.Views.PropertyView({model: model});
+                    app.propertyView = new app.Views.PropertyView({
+                        model: app.property
+                        ,collection: app.assessmentHistory
+                    });
                     self.showView(app.propertyView);
-                }
-                ,error: function(model, xhr, options) {
+                })
+                .catch(function(errors) {
                     util.loading(false);
-                    self.error(model, xhr, options
+                    self.error({}, {}, {}
                         ,window.D("error_database")
                         ,{field: "actnum", input: input, noresults: true}
                     );
-                }
-            });
+                });
         }
         /**
          * Find an OPA Account Number by address

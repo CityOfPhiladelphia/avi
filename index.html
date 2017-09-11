@@ -123,17 +123,16 @@
                         <h3><%= D("previous_value") %></h3>
                     </div>
                     <div class="widget-content">
+                        <% var prev = data.assessmentHistory[1]; %>
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("market_value") %></li>
-                            <li><span class="marketvalue">$<%= util.formatNumber(data.property.previous_value.market_value, false) %></span></li>
+                            <li><span class="marketvalue">$<%= util.formatNumber(prev.market_value, false) %></span></li>
                             <li class="nav-header"><%= D("land_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.previous_value.land_taxable + data.property.previous_value.land_exempt, false) %></li>
+                            <li>$<%= util.formatNumber(prev.taxable_land + prev.exempt_land, false) %></li>
                             <li class="nav-header"><%= D("improvement_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.previous_value.improvement_taxable + data.property.previous_value.improvement_exempt, false) %></li>
+                            <li>$<%= util.formatNumber(prev.taxable_building + prev.exempt_building, false) %></li>
                             <li class="nav-header"><%= D("exempt_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.previous_value.land_exempt + data.property.previous_value.improvement_exempt, false) %></li>
-                            <li class="nav-header"><%= D("tax_2013").replace("2013", data.property.previous_value.certification_year) %></li>
-                            <li>$<%= util.formatNumber(data.property.previous_value.taxes, false) %></li>
+                            <li>$<%= util.formatNumber(prev.exempt_land + prev.exempt_building, false) %></li>
                         </ul>
                     </div>
                 </div>
@@ -144,16 +143,17 @@
                         <h3><%= D("new_value") %></h3>
                     </div>
                     <div class="widget-content">
-                        <% if(data.property.new_value.market_value >= 0) { %>
+                        <% var next = data.assessmentHistory[0]; %>
+                        <% if(next.market_value >= 0) { %>
                         <ul class="nav nav-list">
                             <li class="nav-header"><%= D("market_value") %></li>
-                            <li><span class="marketvalue">$<%= util.formatNumber(data.property.new_value.market_value, false) %></span></li>
+                            <li><span class="marketvalue">$<%= util.formatNumber(next.market_value, false) %></span></li>
                             <li class="nav-header"><%= D("land_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.new_value.land_taxable + data.property.new_value.land_exempt, false) %></li>
+                            <li>$<%= util.formatNumber(next.taxable_land + next.exempt_land, false) %></li>
                             <li class="nav-header"><%= D("improvement_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.new_value.improvement_taxable + data.property.new_value.improvement_exempt, false) %></li>
+                            <li>$<%= util.formatNumber(next.taxable_building + next.exempt_building, false) %></li>
                             <li class="nav-header"><%= D("exempt_value") %></li>
-                            <li>$<%= util.formatNumber(data.property.new_value.land_exempt + data.property.new_value.improvement_exempt, false) %></li>
+                            <li>$<%= util.formatNumber(next.exempt_land + next.exempt_building, false) %></li>
                         </ul>
                         <% } else { %>
                             <%= D("error_being_updated") %>
@@ -165,7 +165,7 @@
             <div class="span4">
                 <div class="widget">
                     <div class="widget-header">
-                        <h3><%= D("estimate_2014_tax").replace("2014", data.property.new_value.certification_year) %></h3>
+                        <h3><%= D("estimate_2014_tax").replace("2014", next.year) %></h3>
                     </div>
                     <div class="widget-content">
                         <ul class="nav nav-list">
@@ -181,7 +181,7 @@
                             <li><span id="taxable-value"></span></li>
                             <li class="nav-header"><%= D("tax_rate") %></li>
                             <li>1.3998%</li>
-                            <li class="nav-header"><%= D("estimated_2014_tax").replace("2014", data.property.new_value.certification_year) %></li>
+                            <li class="nav-header"><%= D("estimated_2014_tax").replace("2014", next.year) %></li>
                             <li>
                                 <div class="above"><button class="btn btn-large"><%= D("estimate_button") %></button></div>
                                 <div class="beneath"><span id="tax"></span></div>
