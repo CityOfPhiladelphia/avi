@@ -30,40 +30,17 @@ window.Backbone = window.Backbone || {};
 
     app.Models.Property = Backbone.Model.extend({
         settings: {
-            apiHost: "http://api.phila.gov/opa_avi/v1.1/"
+            apiHost: "https://phl.carto.com/api/v2/sql"
         }
         ,initialize: function(options) {
             this.input = options.input || "";
         }
         ,url: function() {
-            var url = this.settings.apiHost + "account/" + this.input + "?format=json";
-            return url;
+            return this.settings.apiHost + "?q=select * from opa_properties_public " +
+                "where parcel_number = '" + this.input + "'";
         }
         ,parse: function(response, options) {
-            var property = response.data.property;
-
-            // If proposed valuation has data, use that as the "new value"; otherwise, use valuation history for values
-            if( ! _.isEmpty(property.proposed_valuation)) {
-                property.new_value = property.proposed_valuation;
-                property.previous_value = property.valuation_history[0];
-                property.new_value.certification_year = parseInt(property.previous_value.certification_year, 0) + 1; // proposed_valuation has no year field, so we increment from previous_value's
-            } else {
-                property.new_value = property.valuation_history[0];
-                property.previous_value = property.valuation_history[1];
-            }
-
-            // If previous value year is < 2014 (prior to AVI), divide the values by 32% to get taxable market value
-            if(parseInt(property.previous_value.certification_year, 0) < 2014) {
-                property.previous_value.land_taxable /= .32;
-                property.previous_value.land_exempt /= .32;
-                property.previous_value.improvement_taxable /= .32;
-                property.previous_value.improvement_exempt /= .32;
-            }
-
-            // Parse timestamp from API
-            property.sales_information.sales_date = parseInt(property.sales_information.sales_date.replace(/[^-\d]/g, ""), 0);
-
-            return property;
+            return response.rows[0];
         }
         //,sync: function(method, collection, options) {
 	});
@@ -111,6 +88,22 @@ window.Backbone = window.Backbone || {};
                 }
             };
             Backbone.sync(method, collection, options);
+        }
+    });
+
+    app.Collections.AssessmentHistory = Backbone.Collection.extend({
+        settings: {
+            apiHost: "https://phl.carto.com/api/v2/sql"
+        }
+        ,initialize: function(models, options) {
+            this.input = options.input || "";
+        }
+        ,url: function() {
+            return this.settings.apiHost + "?q=select * from assessments " +
+                "where parcel_number = '" + this.input + "'";
+        }
+        ,parse: function(response, options) {
+            return response.rows;
         }
     });
 
@@ -188,7 +181,10 @@ window.Backbone = window.Backbone || {};
             //,"change #rate-container": "onChangeRate"
         }
         ,render: function() {
-            this.$el.html(this.template({property: this.model.toJSON()}));
+            this.$el.html(this.template({
+                property: this.model.toJSON()
+                ,assessmentHistory: this.collection.toJSON()
+            }));
             //this.activateSpinner();
             this.estimate();
             this.title = this.model.get("full_address");
@@ -207,8 +203,10 @@ window.Backbone = window.Backbone || {};
             }
         }*/
         ,estimate: function() {
-            var marketValue = this.model.get("new_value").market_value
-                ,exemptValue = this.model.get("new_value").land_exempt + this.model.get("new_value").improvement_exempt
+            var prevValue = this.collection.at(1);
+            var nextValue = this.collection.at(0);
+            var marketValue = nextValue.get("market_value")
+                ,exemptValue = nextValue.get("exempt_land") + nextValue.get("exempt_building")
                 ,homestead = parseInt(this.$("#homestead").val(), 0)
                 //,rate = parseFloat(this.$("#rate").val())
                 ,rate = 1.3998
@@ -368,21 +366,28 @@ window.Backbone = window.Backbone || {};
             var self = this;
             input = decodeURIComponent(input);
             app.property = new app.Models.Property({input: input});
+            app.assessmentHistory = new app.Collections.AssessmentHistory(null, {input: input});
             util.loading(true);
-            app.property.fetch({
-                success: function(model, response, options) {
+            var promises = [];
+            promises.push(app.property.fetch());
+            promises.push(app.assessmentHistory.fetch());
+            Promise.all(promises)
+                .then(function(results) {
                     util.loading(false);
-                    app.propertyView = new app.Views.PropertyView({model: model});
+                    app.propertyView = new app.Views.PropertyView({
+                        model: app.property
+                        ,collection: app.assessmentHistory
+                    });
                     self.showView(app.propertyView);
-                }
-                ,error: function(model, xhr, options) {
+                })
+                .catch(function(errors) {
+                    console && console.error && console.error(errors);
                     util.loading(false);
-                    self.error(model, xhr, options
+                    self.error({}, {}, {}
                         ,window.D("error_database")
                         ,{field: "actnum", input: input, noresults: true}
                     );
-                }
-            });
+                });
         }
         /**
          * Find an OPA Account Number by address
