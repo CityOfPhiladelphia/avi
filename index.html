@@ -67,6 +67,15 @@
 	</div>
 
     <!-- Main Content Container -->
+    <div class="deprecation-warning">
+      <div class="container">
+        <h3>
+          The Actual Value Initiative has ended and this application is no longer in service.
+          To estimate real estate taxes for a property, please visit
+          <a href="//property.phila.gov">property.phila.gov</a>.
+        </h3>
+      </div>
+    </div>
     <div class="container" id="main"></div>
 
     <!-- AJAX loading spinner -->
@@ -83,7 +92,7 @@
         <form>
             <div class="input-prepend">
                 <div class="btn-group" id="field" data-value="<%= data.field || "address"%>">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown" type="button">
+                    <button class="btn dropdown-toggle disabled" data-toggle="dropdown" type="button">
                         <span class="dropdown-value"><%= data.field === "actnum" ? D("account") : D("address") %></span>
                         <span class="caret"></span>
                     </button>
@@ -92,9 +101,9 @@
                         <li><a href="" data-value="actnum" data-placeholder="<%= D("account_example") %>"><%= D("account") %></a></li>
                     </ul>
                 </div>
-                <input type="text" name="input" id="input" value="<%= data.input || "" %>" placeholder="<%= data.field === "actnum" ? D("account_example") : D("address_example") %>" autofocus>
+                <input disabled type="text" name="input" id="input" value="<%= data.input || "" %>" placeholder="<%= data.field === "actnum" ? D("account_example") : D("address_example") %>" autofocus>
             </div>
-            <button class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> <%= D("search_button") %></button>
+            <button disabled class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> <%= D("search_button") %></button>
         </form>
 
         <ul id="language" class="nav nav-pills pull-right">

@@ -56,3 +56,11 @@ body { margin-bottom: 20px; }
 
 /* Properties list margin */
 #list { margin-bottom: 0px; }
+
+.deprecation-warning {
+  background: rgb(255, 243, 160);
+  padding: 1em;
+  text-align: center;
+  margin-bottom: 1em;
+  margin-top: -1em;
+}
