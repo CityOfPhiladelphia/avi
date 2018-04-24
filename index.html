@@ -87,7 +87,7 @@
         <h3><%= D("app_desc1") %></h3>
         <p><%= D("app_desc2") %></p>
         <% if(data.noresults) { %>
-        <div class="alert alert-error"><%= D("error_no_matches", data.input) %> <%= data.field !== "actnum" ? D("error_best_results") : "" %><%= D("error_should_have_worked") %></div>
+        <div class="alert alert-error"><%= D("error_no_matches", data.input) %> <%= data.field !== "actnum" ? D("error_best_results") : "" %><%= D("error_should_have_worked", [data.input, data.input]) %></div>
         <% } %>
         <form>
             <div class="input-prepend">
@@ -177,6 +177,10 @@
                         <h3><%= D("estimate_2014_tax").replace("2014", next.year) %></h3>
                     </div>
                     <div class="widget-content">
+                        <div class="alert alert-block">
+                            <h4>Remember!</h4>
+                            To estimate <strong>2019</strong> real estate taxes for <code><%= $.trim(data.property.location) %></code>, please go to <a href="//property.phila.gov?a=<%= encodeURIComponent($.trim(data.property.location)) %>" target="_blank">property.phila.gov</a>
+                        </div>
                         <ul class="nav nav-list">
                             <li class="nav-header<%= data.property.homestead_exemption ? ' hidden' : '' %>"><%= D("homestead_exemption") %></li>
                             <li class="<%= data.property.homestead_exemption ? ' hidden' : '' %>">

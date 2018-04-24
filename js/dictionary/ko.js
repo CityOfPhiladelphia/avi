@@ -68,7 +68,7 @@ window.dictionary = window.dictionary || {};
         ,error_being_updated: "이 부동산의 데이터가 업데이트되고 있습니다. 나중에 다시 확인해 주십시오."
         ,error_no_matches: "<code>%s</code> 와(과) 일치하는 결과를 찾을 수 없습니다."
         ,error_best_results: "최선의 결과를 위해, 부동산의 계정 번호를 입력해 보십시오."
-        ,error_should_have_worked: "이 검색에 문제가 없었다고 생각하는 경우, <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>에서 검색해 볼 수 있습니다."
+        ,error_should_have_worked: "이 검색에 문제가 없었다고 생각하는 경우, <a href=\"http://property.phila.gov/\" target=\"_blank\">http://property.phila.gov/</a>에서 검색해 볼 수 있습니다."
         ,error_database: "데이터베이스에서 부동산을 검색하는 동안 오류가 발생했습니다. 다시 시도해 보십시오."
         ,error_verifying: "주소를 확인하는 동안 오류가 발생했습니다. 다시 시도해 보십시오."
         ,error_generic: "오류가 발생했습니다. 다시 시도해 보십시오."
