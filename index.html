@@ -67,15 +67,6 @@
 	</div>
 
     <!-- Main Content Container -->
-    <div class="deprecation-warning">
-      <div class="container">
-        <h3>
-          The Actual Value Initiative has ended and this application is no longer in service.
-          To estimate real estate taxes for a property, please visit
-          <a href="//property.phila.gov">property.phila.gov</a>.
-        </h3>
-      </div>
-    </div>
     <div class="container" id="main"></div>
 
     <!-- AJAX loading spinner -->
@@ -89,7 +80,11 @@
         <% if(data.noresults) { %>
         <div class="alert alert-error"><%= D("error_no_matches", data.input) %> <%= data.field !== "actnum" ? D("error_best_results") : "" %><%= D("error_should_have_worked", [data.input, data.input]) %></div>
         <% } %>
-        <form>
+        <div class="alert alert-error deprecation-warning">
+          To estimate your Real Estate Tax, please visit
+          <a href="//property.phila.gov">property.phila.gov</a>.
+        </div>
+        <!--<form>
             <div class="input-prepend">
                 <div class="btn-group" id="field" data-value="<%= data.field || "address"%>">
                     <button class="btn dropdown-toggle disabled" data-toggle="dropdown" type="button">
@@ -104,7 +99,7 @@
                 <input disabled type="text" name="input" id="input" value="<%= data.input || "" %>" placeholder="<%= data.field === "actnum" ? D("account_example") : D("address_example") %>" autofocus>
             </div>
             <button disabled class="btn btn-large btn-primary" type="submit"><i class="icon-search icon-white"></i> <%= D("search_button") %></button>
-        </form>
+        </form>-->
 
         <ul id="language" class="nav nav-pills pull-right">
             <li<% if(AVI.language === "en"){ %> class="active"<%}%>><a href="" data-value="en">English</a></li>

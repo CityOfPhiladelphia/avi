@@ -325,8 +325,8 @@ window.Backbone = window.Backbone || {};
     app.Routers.AppRouter = Backbone.Router.extend({
         routes: {
             "": "home"
-            ,"view/:input": "view"
-            ,"search/:input": "search"
+            // ,"view/:input": "view"
+            // ,"search/:input": "search"
             ,"*path": "home"
         }
         /**
