@@ -56,3 +56,9 @@ body { margin-bottom: 20px; }
 
 /* Properties list margin */
 #list { margin-bottom: 0px; }
+
+.deprecation-warning {
+  font-size: 200%;
+  font-weight: bold;
+  padding: 25px;
+}

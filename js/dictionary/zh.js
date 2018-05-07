@@ -68,7 +68,7 @@ window.dictionary = window.dictionary || {};
         ,error_being_updated: "此物業的數據已被更新。請稍後檢查。"
         ,error_no_matches: "未找到 <code>%s</code>的匹配項目。"
         ,error_best_results: "如欲得到最佳結果，請嘗試輸入您物業的賬號。"
-        ,error_should_have_worked: "如果您認為此法應當奏效，您可嘗試在 <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a> 上進行搜尋"
+        ,error_should_have_worked: "如果您認為此法應當奏效，您可嘗試在 <a href=\"http://property.phila.gov/\" target=\"_blank\">http://property.phila.gov/</a> 上進行搜尋"
         ,error_database: "在資料庫中尋找物業時發生一個錯誤。請重試。"
         ,error_verifying: "在驗證地址時發生一個錯誤。請重試。"
         ,error_generic: "發生一個錯誤。請重試。"

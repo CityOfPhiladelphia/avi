@@ -68,7 +68,7 @@ window.dictionary = window.dictionary || {};
         ,error_being_updated: "Данные по этому объекту недвижимости обновляются. Пожалуйста, проверьте позже."
         ,error_no_matches: "Не найдено соответствий для <code>%s</code>."
         ,error_best_results: "Для получения наиболее точных результатов попробуйте ввести учетный номер вашего объекта недвижимости."
-        ,error_should_have_worked: "Если вы считаете, что это должно было сработать, вы можете попробовать поискать на веб-сайте <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
+        ,error_should_have_worked: "Если вы считаете, что это должно было сработать, вы можете попробовать поискать на веб-сайте <a href=\"http://property.phila.gov/\" target=\"_blank\">http://property.phila.gov/</a>"
         ,error_database: "Произошла ошибка при поиске объекта недвижимости в базе данных. Пожалуйста, повторите попытку. "
         ,error_verifying: "Произошла ошибка при проверке адреса. Пожалуйста, повторите попытку."
         ,error_generic: "Произошла ошибка. Пожалуйста, повторите попытку."

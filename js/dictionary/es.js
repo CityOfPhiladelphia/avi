@@ -68,7 +68,7 @@ window.dictionary = window.dictionary || {};
         ,error_being_updated: "Los datos de esta propiedad se están actualizando. Vuelva a intentarlo más tarde."
         ,error_no_matches: "No se encontró ninguna coincidencia para <code>%s</code>."
         ,error_best_results: "Para obtener mejores resultados, intente ingresar el número de cuenta de su propiedad."
-        ,error_should_have_worked: "Si cree que esto debiera haber funcionado, puede intentar la búsqueda en <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
+        ,error_should_have_worked: "Si cree que esto debiera haber funcionado, puede intentar la búsqueda en <a href=\"http://property.phila.gov/\" target=\"_blank\">http://property.phila.gov/</a>"
         ,error_database: "Se produjo un error al buscar la propiedad en la base de datos. Vuelva a intentarlo."
         ,error_verifying: "Se produjo un error al verificar la dirección. Vuelva a intentarlo."
         ,error_generic: "Se produjo un error. Vuelva a intentarlo."

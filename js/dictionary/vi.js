@@ -68,7 +68,7 @@ window.dictionary = window.dictionary || {};
         ,error_being_updated: "Dữ liệu cho bất động sản này đang được cập nhật. Xin vui lòng kiểm tra lại sau."
         ,error_no_matches: "Không có kết quả phù hợp được tìm thấy cho <code>%s</code>."
         ,error_best_results: "Để có các kết quả tốt nhất, hãy thử nhập số tài khoản của bất động sản của quý vị."
-        ,error_should_have_worked: "Nếu nghĩ rằng điều này có hiệu quả, quý vị có thể thử tìm kiếm tại <a href=\"http://opa.phila.gov/opa.apps/Search/SearchForm.aspx?url=search\" target=\"_blank\">property.phila.gov</a>"
+        ,error_should_have_worked: "Nếu nghĩ rằng điều này có hiệu quả, quý vị có thể thử tìm kiếm tại <a href=\"http://property.phila.gov/\" target=\"_blank\">http://property.phila.gov/</a>"
         ,error_database: "Lỗi xảy ra trong khi tìm kiếm bất động sản trong cơ sở dữ liệu. Xin vui lòng thử lại."
         ,error_verifying: "Lỗi xảy ra trong khi xác nhận địa chỉ. Xin vui lòng thử lại."
         ,error_generic: "Có lỗi đã xảy ra. Xin vui lòng thử lại."
